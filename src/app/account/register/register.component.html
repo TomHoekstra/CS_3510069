@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-12">
+    <form novalidate #f="ngForm" (ngSubmit)="submitForm(f)" *ngIf="!loading">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>Login</h2>
+        </div>
+        <div class="panel-body">
+          <div class="form-group" [ngClass]="{'has-feedback' : studentId.valid === true}">
+            <label for="studentId">Student ID</label>
+            <input #studentId="ngModel" ngModel required name="studentId" type="text" class="form-control" id="studentId" />
+            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'studentId.valid === true'" aria-hidden="true"></span>
+          </div>
+          <div class="form-group" [ngClass]="{'has-feedback' : email.status === true}">
+            <label for="email">Email</label>
+            <input type="email" #email="ngModel" ngModel required name="email" class="form-control" id="email" >
+            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'email.valid === true'" aria-hidden="true"></span>
+          </div>
+          <div class="form-group" [ngClass]="{'has-feedback' : password.status === true}">
+            <label for="password">Password</label>
+            <input type="password" #password="ngModel" ngModel required name="password" class="form-control" id="password" >
+            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'password.valid === true'" aria-hidden="true"></span>
+          </div>
+          <div class="form-group" [ngClass]="{'has-feedback' : firstName.status === true}">
+            <label for="firstName">First name</label>
+            <input type="text" #firstName="ngModel" ngModel required name="firstName" class="form-control" id="firstName" >
+            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'firstName.valid === true'" aria-hidden="true"></span>
+          </div>
+          <div class="form-group" [ngClass]="{'has-feedback' : lastName.status === true}">
+            <label for="lastName">Last name</label>
+            <input type="text" #lastName="ngModel" ngModel required name="lastName" class="form-control" id="lastName" >
+            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'lastName.valid === true'" aria-hidden="true"></span>
+          </div>
+
+          <div class="panel-footer">
+            <button class="btn btn-primary" id="save" type="submit" [disabled]="!f.valid">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button class="btn btn-default btn-back" [routerLink]="['/']">To homepage</button>
+  </div>
+</div>

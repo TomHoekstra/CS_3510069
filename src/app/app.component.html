@@ -1,0 +1,39 @@
+<main>
+    <div class="page-wrap">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+              aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+            <div>
+              <img class="hover-pointer logo pull-left" src="" alt="Home" routerLink="/" />
+              <a class="navbar-brand" routerLink="/">Quiz</a>
+            </div>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a routerLink="/" *ngIf="checkIfSignedIn()" id="fullName">{{getFullName()}}</a></li>
+              <li><a routerLink="/login" *ngIf="!checkIfSignedIn()" id="signIn">Log in</a></li>
+              <li class="hover-pointer"><a (click)="SignOut()" *ngIf="checkIfSignedIn()" id="signOut">Log out</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container-fluid">
+
+      </div>
+    </footer>
+  </main>
