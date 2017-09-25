@@ -4,6 +4,7 @@ import RouterUtils from '../utils/router.utils';
 import User, { IMongooseUser } from '../models/user.model';
 import AuthUtils from '../utils/auth.utils';
 import { IUserData } from '../models/user-data.model';
+import Auth from '../middleware/auth';
 
 export class AuthenticationRouter {
     public router: express.Router;
@@ -16,7 +17,7 @@ export class AuthenticationRouter {
     init() {
         // Register listeners
         this.router.post('/register', (request: express.Request, response: express.Response, next: express.NextFunction) => this.register(request, response, next));
-        this.router.post("/signin", (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
+        this.router.post("/signin", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
         this.router.post("/signout", (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
         this.router.get('/userdata', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getUserDataFromAccessToken(request, response, next));
     }
