@@ -3,5 +3,6 @@ export interface IUserData {
     studentId?: string;
     firstName?: string;
     lastName?: string;
+    role: string;
 }
 

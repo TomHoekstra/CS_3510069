@@ -35,7 +35,8 @@ export default class AuthUtils {
             studentId : user.studentId,
             firstName : user.firstName,
             lastName : user.lastName, 
-            signedIn : true
+            signedIn : true,
+            role: user.role
         };
 
         return userData;       

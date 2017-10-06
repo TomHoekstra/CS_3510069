@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { IUserData } from '../../../server/models/user-data.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AppStateService {
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     this.checkIfAnyUserIsSignedIn();
   }
 
@@ -14,6 +15,15 @@ export class AppStateService {
 
   public setUserData(userData) {
     this.currentUser = userData;
+  }
+
+  public navigate(): void {
+    console.log(this.currentUser);
+    if (this.currentUser.role === 'admin')
+      this.router.navigate(['admin']);
+    else {
+      this.router.navigate(['student']);
+    }
   }
 
   private checkIfAnyUserIsSignedIn() {

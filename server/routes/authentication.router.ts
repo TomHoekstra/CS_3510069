@@ -17,8 +17,8 @@ export class AuthenticationRouter {
     init() {
         // Register listeners
         this.router.post('/register', (request: express.Request, response: express.Response, next: express.NextFunction) => this.register(request, response, next));
-        this.router.post("/signin", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
-        this.router.post("/signout", (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
+        this.router.post("/signin", (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
+        this.router.post("/signout", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
         this.router.get('/userdata', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getUserDataFromAccessToken(request, response, next));
     }
 
@@ -42,7 +42,7 @@ export class AuthenticationRouter {
                 RouterUtils.handleResponse(res, "That student id/email is already taken.", user);
             } else {
                 newUser.role = "student";
-
+                console.log(newUser);
                 // Save the new user
                 User.create(newUser, (err, createdUser: IMongooseUser) => {
                     RouterUtils.handleResponse(res, err, createdUser);
@@ -67,13 +67,11 @@ export class AuthenticationRouter {
                 // If there are any errors, return the error before anything
                 // else
                 if (err) {
-                    res.status(401);
                     RouterUtils.handleResponse(res, err, user);
                 }
 
                 // If no user is found, return a message
                 if (!user || user.password != password) {
-                    res.status(401);
                     RouterUtils.handleResponse(res, "Login failed", user);
                 }
                 else {
@@ -96,7 +94,8 @@ export class AuthenticationRouter {
         res.clearCookie("access_token");
 
         let userData: IUserData = {
-            signedIn: false
+            signedIn: false,
+            role: "NotInterested"
         }
 
         RouterUtils.handleResponse(res, null, userData);

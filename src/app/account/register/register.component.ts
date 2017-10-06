@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AppStateService } from '../../services/app-state.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 
-  constructor(private authenticationService: AuthenticationService, private appStateService: AppStateService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService, private appStateService: AppStateService, private router: Router, private messageService: MessageService) { }
   
     submitForm({ value, valid }: { value, valid: boolean }) {
       if (valid) {
@@ -20,7 +21,7 @@ export class RegisterComponent {
             this.navigateToHome();
           }
           else {
-            //errorhandling
+            this.messageService.add({severity:'error', summary:'Error Message', detail:result.msg});           
           }
         });
       }
