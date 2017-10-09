@@ -11,18 +11,19 @@ Install MongoDB from https://www.mongodb.com/download-center?jmp=nav#community
 * Add a variabel to PATH with your installation path of MongoDB, for example `C:\Program Files\MongoDB\Server\3.4\bin`
 
 Recommended: 
-Install robomongo to explore the database: https://robomongo.org/
+* Install robomongo to explore the database: https://robomongo.org/
 
+Getting the repository ready:
 * Get the repository from GitHub: https://github.com/TomHoekstra/CS_3510069.git
 * After downloading use: npm install
 
+Starting the application: 
 * To start the webapplication use: npm start
 * To start the webserver use: gulp serve
 * To start the database use commandline: mongod
 
 Import the users in the database for a faster start:
 * mongoimport --db quizapp --collection users --file users.json
-
 
 ## Extra information: 
 Command to create a new application:
