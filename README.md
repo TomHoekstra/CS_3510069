@@ -20,6 +20,10 @@ Install robomongo to explore the database: https://robomongo.org/
 * To start the webserver use: gulp serve
 * To start the database use commandline: mongod
 
+Import the users in the database for a faster start:
+* mongoimport --db quizapp --collection users --file users.json
+
+
 ## Extra information: 
 Command to create a new application:
 *ng new QuizApp --minimal --inline-template false --routing --style less

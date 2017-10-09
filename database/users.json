@@ -1,0 +1,2 @@
+{"_id":{"$oid":"59d78453fcf23311d8ffbfb3"},"studentId":"tom","email":"t.m.hoekstra@students.uu.nl","password":"tom","firstName":"Tom","lastName":"Hoekstra","role":"student","__v":0}
+{"_id":{"$oid":"59d78d6b3645622e8c22703c"},"studentId":"admin","email":"admin@admin.nl","password":"admin","firstName":"Sergey","lastName":"Sosnovsky ","role":"admin","__v":0}
