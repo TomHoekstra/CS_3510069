@@ -12,17 +12,17 @@
             <span class="icon-bar"></span>
           </button>
           <div>
-            <img height="50" class="hover-pointer logo pull-left" src="assets/img/logo.png" alt="Home" routerLink="/" />
-            <a class="navbar-brand" routerLink="/">Quiz</a>
+            <img height="50" class="hover-pointer logo pull-left" src="assets/img/logo.png" alt="Home" (click)="navigateToRolePage()"/>
+            <a class="navbar-brand hover-pointer" (click)="navigateToRolePage()">Quiz</a>
           </div>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li><a routerLink="/" *ngIf="checkIfSignedIn()" id="fullName">{{getFullName()}}</a></li>
+            <li class="hover-pointer"><a (click)="navigateToRolePage()" *ngIf="checkIfSignedIn()" id="fullName">{{getFullName()}}</a></li>
             <li><a routerLink="/register" *ngIf="!checkIfSignedIn()" id="signIn">Register</a></li>
             <li><a routerLink="/login" *ngIf="!checkIfSignedIn()" id="signIn">Log in</a></li>
-            <li class="hover-pointer"><a  (click)="SignOut()" *ngIf="checkIfSignedIn()" id="signOut">Log out</a></li>
+            <li class="hover-pointer"><a (click)="SignOut()" *ngIf="checkIfSignedIn()" id="signOut">Log out</a></li>
           </ul>
         </div>
 

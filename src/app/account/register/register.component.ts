@@ -28,6 +28,13 @@ export class RegisterComponent {
     }
   
     public navigateToHome(): void {
-      this.router.navigate(['']);
+      if(this.appStateService.roleIsAdmin())
+      {
+        this.router.navigate(['/admin']);
+      }
+      else{
+        this.router.navigate(['/student']);
+      }
+      
     }
 }

@@ -42,7 +42,6 @@ export class AuthenticationRouter {
                 RouterUtils.handleResponse(res, "That student id/email is already taken.", user);
             } else {
                 newUser.role = "student";
-                console.log(newUser);
                 // Save the new user
                 User.create(newUser, (err, createdUser: IMongooseUser) => {
                     RouterUtils.handleResponse(res, err, createdUser);
@@ -113,7 +112,8 @@ export class AuthenticationRouter {
                     signedIn: true,
                     studentId: user.studentId,
                     firstName: user.firstName,
-                    lastName: user.lastName
+                    lastName: user.lastName,
+                    role: user.role
                 };
                 RouterUtils.handleResponse(res, null, userData);
             }

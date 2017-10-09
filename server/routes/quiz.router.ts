@@ -15,7 +15,9 @@ export class QuizRouter {
 
     init() {
         this.router.post('/create', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.createQuiz(request, response, next));
-        this.router.post("/update/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
+        this.router.put("/update/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
+        this.router.delete("/delete/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
+        this.router.get('/', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllQuizzes(request, response, next));
         this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuiz(request, response, next));
     }
 
@@ -41,7 +43,25 @@ export class QuizRouter {
         Quiz.findById(id).exec((err, quiz: IMongooseQuiz) => {
             RouterUtils.handleResponse(res, err, quiz);
         });
+    }
 
+    public getAllQuizzes(req: express.Request, res: express.Response, next: express.NextFunction) {
+
+        Quiz.find().exec((err, quizzes: [IMongooseQuiz]) => {
+            RouterUtils.handleResponse(res, err, quizzes);
+        });
+    }
+
+    public deleteQuiz(req: express.Request, res: express.Response, next: express.NextFunction) {
+        const id = req.params.id;
+
+        if (isNullOrUndefined(id)) {
+            RouterUtils.handleResponse(res, 'Invalid parameters supplied', null);
+        }
+
+        Quiz.remove({ _id: id }, (err) => {
+            RouterUtils.handleResponse(res, err, null);
+        })
     }
 
 }

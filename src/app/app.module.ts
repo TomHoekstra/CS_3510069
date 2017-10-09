@@ -10,6 +10,7 @@ import { AdminModule } from './admin/admin.module';
 import { GrowlModule } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { GuardModule } from './guard/guard.module';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     GrowlModule,
     HttpModule,
     BrowserModule,
-    AccountModule,
-    Routing,
     ServiceModule,
+    AccountModule,
+    Routing,  
     StudentModule,
     AdminModule,
-    BrowserAnimationsModule 
+    BrowserAnimationsModule ,
+    GuardModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

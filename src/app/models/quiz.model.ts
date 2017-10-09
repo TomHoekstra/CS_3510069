@@ -1,5 +1,4 @@
-import { IQuiz } from "../../../server/models/quiz.model";
-import { IQuestion, IAnswer } from "../../../server/models/question.model";
+import { IQuiz,  IQuestion, IAnswer } from "../../../server/models/quiz.model";
 
 export class Quiz implements IQuiz {
     title: string;

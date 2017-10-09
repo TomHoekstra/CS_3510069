@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2>Quiz</h2>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3" *ngIf="!quiz">
+            <label>Quiz Identification:</label>
+            <input [(ngModel)]="quizId" required name="quizId" type="text" class="form-control" id="quizId" />
+            <a (click)="startQuiz()" class="hover-pointer big-button">
+              <span>Start the quiz!</span>
+            </a>
+          </div>
+          <div class="col-md-12" *ngIf="quiz">
+            <p-carousel [value]="quiz.questions" numVisible="2">
+              <ng-template let-question pTemplate="question">
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>{{question.question}}</label>
+                  </div>
+                </div>
+                <div class="row" class="btn-group" data-toggle="buttons">
+                  <div class="col-md-6" *ngFor="let answer of question.answers">
+                    <label class="btn btn-primary">
+                      <input type="radio" name="options" id="option1" autocomplete="off" value="true"> {{answer.answer}}
+                    </label>
+                  </div>
+                </div>
+              </ng-template>
+            </p-carousel>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 59d7db64a413251d843d78c8

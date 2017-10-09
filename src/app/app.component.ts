@@ -31,4 +31,15 @@ export class AppComponent {
       //Errorhandling
     });
   }
+
+  navigateToRolePage()
+  {
+    if(this.appStateService.roleIsAdmin())
+    {
+      this.router.navigate(['/admin']);
+    }
+    else{
+      this.router.navigate(['/student']);
+    }
+  }
 }

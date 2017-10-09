@@ -25,4 +25,16 @@ export class QuizService {
     return this.http.put(`api/quiz/update/${id}`, quiz)
       .map((res: Response) => res.json());
   }
+
+  deleteQuiz(id: string): Observable<ServiceResult<IQuiz>> {
+    return this.http.delete(`api/quiz/update/${id}`)
+      .map((res: Response) => res.json());
+  }
+  
+  getAllQuizzes(): Observable<ServiceResult<IQuiz[]>> {
+    return this.http.get(`api/quiz/`, )
+      .map((res: Response) => res.json());
+  }
+
+  
 }

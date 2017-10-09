@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 export class AppStateService {
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
+    console.log("HI IM BEING CALLED")
     this.checkIfAnyUserIsSignedIn();
   }
 
@@ -18,7 +19,6 @@ export class AppStateService {
   }
 
   public navigate(): void {
-    console.log(this.currentUser);
     if (this.currentUser.role === 'admin')
       this.router.navigate(['admin']);
     else {
@@ -43,7 +43,15 @@ export class AppStateService {
     return this.currentUser && this.currentUser.signedIn;
   }
 
-  getFullName(): string {
+  public roleIsStudentOrAdmin() {
+    return this.currentUser.role === "student" || this.roleIsAdmin;
+  }
+
+  public roleIsAdmin(){
+    return this.currentUser.role === "admin"
+  }
+
+  public getFullName(): string {
     return `${this.currentUser.firstName} ${this.currentUser.lastName}`;
   }
 

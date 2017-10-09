@@ -5,14 +5,17 @@ import { QuizCreatorComponent } from './quiz-creator/quiz-creator.component';
 import { PanelModule } from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
 import { QuizService } from '../services/quiz.service';
+import { QuizOverviewComponent } from './quiz-overview/quiz-overview.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    PanelModule
+    PanelModule,
+    RouterModule 
   ],
   providers: [QuizService],
-  declarations: [AdminStartComponent, QuizCreatorComponent]
+  declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent]
 })
 export class AdminModule { }
