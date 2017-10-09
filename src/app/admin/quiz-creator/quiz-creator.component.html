@@ -14,6 +14,12 @@
                         <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'title.valid === true'" aria-hidden="true"></span>
                     </div>
 
+                    <div class="form-group" [ngClass]="{'has-feedback' : quizCode.valid === true}">
+                            <label for="quizCode">Quiz code</label>
+                            <input #quizCode="ngModel" [(ngModel)]="quiz.quizCode" required name="quizCode" type="text" class="form-control" id="quizCode" />
+                            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'quizCode.valid === true'" aria-hidden="true"></span>
+                        </div>
+
                     <div *ngFor="let question of quiz?.questions; let q=index">
                         {{question.question}}
                         <p-panel [header]="quiz.questions[q].question" [toggleable]="true">

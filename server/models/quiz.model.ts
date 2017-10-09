@@ -6,6 +6,7 @@ export let ObjectId = mongoose.Schema.Types.ObjectId;
 export interface IQuiz extends mongoose.Document {
     title: string;
     questions: IQuestion[];
+    quizCode: string;
 }
 
 export interface IQuestion {
@@ -52,6 +53,10 @@ export const QuizSchema = new Schema({
     questions: [
         QuestionSchema
     ],
+    quizCode: {
+        type: String,
+        required: true
+    }
 });
 
 const Quiz = mongoose.model<IQuiz>('Quiz', QuizSchema, 'quiz', true);

@@ -13,24 +13,21 @@
               <span>Start the quiz!</span>
             </a>
           </div>
-          <div class="col-md-12" *ngIf="quiz">
-            <p-carousel [value]="quiz.questions" numVisible="2">
-              <ng-template let-question pTemplate="question">
-                <div class="row">
-                  <div class="col-md-12">
-                    <label>{{question.question}}</label>
-                  </div>
-                </div>
-                <div class="row" class="btn-group" data-toggle="buttons">
-                  <div class="col-md-6" *ngFor="let answer of question.answers">
-                    <label class="btn btn-primary">
-                      <input type="radio" name="options" id="option1" autocomplete="off" value="true"> {{answer.answer}}
-                    </label>
-                  </div>
-                </div>
-              </ng-template>
-            </p-carousel>
-          </div>
+        </div>
+        <div *ngIf="quiz && !quizResult">
+          <p-carousel [value]="quiz.questions" numVisible="1">
+            <ng-template let-question pTemplate="question">
+              <label>{{question.question}}</label>
+              <div class="btn-answer-container" *ngFor="let answer of question.answers; let a = index">
+                <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectCorrectAnswer(question.index, a)"
+                  [ngClass]="{'btn-primary': quiz?.questions[question.index - 1]?.answers[a].selected}">{{answer.answer}}</button>
+              </div>
+            </ng-template>
+          </p-carousel>
+          <button class="btn btn-primary" id="save" type="button" (click)="submitQuiz()">Submit Quiz</button>
+        </div>
+        <div *ngIf="quizResult">
+          Answers correct: {{quizResult.percentage}}%!
         </div>
       </div>
     </div>
