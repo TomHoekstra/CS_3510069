@@ -1,2 +1,3 @@
 [config]
-command = npm install, npm run start
+command = npm run install
+command = npm run start
