@@ -3,6 +3,7 @@ import { IQuiz,  IQuestion, IAnswer } from "../../../server/models/quiz.model";
 export class Quiz implements IQuiz {
     title: string;
     questions: IQuestion[] = new Array();
+    quizCode: string;
 
     constructor() {
         this.title = "New Quiz"

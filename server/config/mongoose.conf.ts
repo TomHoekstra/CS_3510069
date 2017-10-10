@@ -40,7 +40,8 @@ export class MongooseConnection {
         var options ={
             "useMongoClient": true
         };
-        mongoose.connect("mongodb://localhost:27017/quizapp", (error) => {
+
+        mongoose.connect(process.env.MONGODB_URI, (error) => {
 
             if (error)
                 throw error;

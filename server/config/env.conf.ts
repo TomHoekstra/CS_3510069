@@ -5,6 +5,10 @@ export class Environment {
 
     constructor() {
 
+        if (!process.env.MONGODB_URI) {
+            process.env.MONGODB_URI = config.MONGODB_URI;
+        }
+
         if(!process.env.JWT_SECRET)
             process.env.JWT_SECRET = config.JWT_SECRET;
 
