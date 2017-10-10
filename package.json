@@ -2,7 +2,6 @@
   "name": "quiz-app",
   "version": "0.0.0",
   "license": "MIT",
-  "engines":{"node": "6.11.4"},
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
