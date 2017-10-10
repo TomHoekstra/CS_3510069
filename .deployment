@@ -1,2 +1,2 @@
 [config]
-command = npm prod, gulp serve
+command = npm run start
