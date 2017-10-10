@@ -1,3 +1,2 @@
 [config]
 command = npm run install
-command = npm run start
