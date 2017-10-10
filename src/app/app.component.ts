@@ -11,6 +11,8 @@ import {MessageService} from 'primeng/components/common/messageservice';
   styles: []
 })
 export class AppComponent {
+  msgs: any;
+
   constructor(private router: Router, private appStateService: AppStateService, private authenticationService: AuthenticationService) {
 
   }
