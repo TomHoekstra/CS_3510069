@@ -3,23 +3,23 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { QuizService } from '../../services/quiz.service';
 import { IQuiz } from '../../../../server/models/quiz.model';
 import { QuizResult } from '../../../../server/models/quiz-result.model';
+import { GuidService } from '../../services/guid.service';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-quiz-maker',
   templateUrl: './quiz-maker.component.html',
   styles: []
 })
-export class QuizMakerComponent implements OnInit {
+export class QuizMakerComponent {
   quizId: string;
   quiz: any;
   quizResult: QuizResult;
+  sessionId: string;
 
-  constructor(private messageService: MessageService, private quizService: QuizService) { }
+  constructor(private messageService: MessageService, private quizService: QuizService, private guidService: GuidService, private transactionService: TransactionService) { }
 
-  ngOnInit() {
-  }
-
-  startQuiz() {
+  searchQuiz() {
     if (!this.quizId || this.quizId === '') {
       this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: "Atleast fill something in!" });
     }
@@ -30,7 +30,7 @@ export class QuizMakerComponent implements OnInit {
             this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: `No quiz found!` });
           }
           else {
-            this.quiz = result.model;
+            this.startQuiz(result.model);
           }
         }
         else {
@@ -38,7 +38,20 @@ export class QuizMakerComponent implements OnInit {
         }
       });
     }
+  }
 
+  startQuiz(quiz) {
+    this.quiz = quiz;
+    this.sessionId = this.guidService.newGuid();
+    this.transactionService.start(this.sessionId, this.quizId).subscribe((result) => {
+      if (result.success) {
+        console.log(result.model);
+      }
+      else {
+        console.log(result.msg);
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log hasn't started. Warn the teacher." });
+      }
+    });
   }
 
   selectCorrectAnswer(questionIndex: number, answerIndex: number) {
@@ -52,10 +65,10 @@ export class QuizMakerComponent implements OnInit {
   submitQuiz() {
     if (this.checkIfAllQuestionsAreAnswered() && this.quizId) {
       this.quizService.checkQuizAnswers(this.quizId, this.quiz).subscribe((result) => {
-          this.quizResult = result.model;
+        this.quizResult = result.model;
       });
     }
-    else{
+    else {
       this.messageService.add({ severity: 'error', summary: 'Invalid Answers', detail: `Not every question is answered!` });
     }
   }

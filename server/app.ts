@@ -12,6 +12,7 @@ import { MongooseConnection } from './config/mongoose.conf';
 import { AuthenticationRouter } from './routes/authentication.router';
 import Auth from './middleware/auth';
 import { QuizRouter } from './routes/quiz.router';
+import { TransactionRouter } from './routes/transaction.router';
 
 
 
@@ -57,6 +58,7 @@ class App {
         // // --- ROUTES ---
         router.use("/auth", new AuthenticationRouter().router);
         router.use("/quiz", new QuizRouter().router);
+        router.use("/transaction", new TransactionRouter().router);
     }
 }
 

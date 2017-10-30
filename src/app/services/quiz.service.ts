@@ -28,7 +28,6 @@ export class QuizService {
       .map((res: Response) => res.json());
   }
 
-
   updateQuiz(quiz: Quiz, id: string): Observable<ServiceResult<IQuiz>> {
     return this.http.put(`api/quiz/update/${id}`, quiz)
       .map((res: Response) => res.json());
