@@ -9,7 +9,7 @@ import { RegisterComponent } from './register/register.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [LoginComponent, RegisterComponent]
 })

@@ -1,20 +1,18 @@
 <div class="row">
   <div class="col-md-12">
-    <form novalidate #f="ngForm" (ngSubmit)="submitForm(f)">
+    <form ngNativeValidate #f="ngForm" (ngSubmit)="submitForm(f)">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Login</h2>
         </div>
         <div class="panel-body">
-          <div class="form-group" [ngClass]="{'has-feedback' : studentId.valid === true}">
-            <label for="studentId">Student ID</label>
+          <div class="form-group">
+            <label for="studentId">Username (Student ID)</label>
             <input #studentId="ngModel" ngModel required name="studentId" type="text" class="form-control" id="studentId" />
-            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'studentId.valid === true'" aria-hidden="true"></span>
           </div>
-          <div class="form-group" [ngClass]="{'has-feedback' : password.status === true}">
+          <div class="form-group">
             <label for="password">Password</label>
             <input type="password" #password="ngModel" ngModel required name="password" class="form-control" id="password" >
-            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'password.valid === true'" aria-hidden="true"></span>
           </div>
 
           <div class="panel-footer">
