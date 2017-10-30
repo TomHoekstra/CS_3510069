@@ -15,7 +15,8 @@
 
                     <div class="form-group">
                         <label for="quizCode">Quiz code</label>
-                        <input #quizCode="ngModel" [(ngModel)]="quiz.quizCode" required name="quizCode" type="text" class="form-control" id="quizCode"/>
+                        <input #quizCode="ngModel" [(ngModel)]="quiz.quizCode" required name="quizCode" type="text" class="form-control" id="quizCode"
+                        />
                     </div>
 
                     <hr/>
@@ -36,15 +37,15 @@
                     <div *ngFor="let answer of quiz?.questions[selectedQuestion]?.answers; let a=index">
                         <div class="form-group">
                             <label for="answercorrect{{a}}">Answer</label>
-                            <input type="radio" value="true" [checked]="quiz?.questions[selectedQuestion].answers[a].correct === 'true'" name="answercorrect" id="answercorrect{{a}}"
-                                (change)="selectCorrectAnswer(selectedQuestion, a)">
-                            <input #answer="ngModel" [(ngModel)]="quiz?.questions[selectedQuestion].answers[a].answer" required name="answer{{a}}" type="text" class="form-control"
-                                id="answer{{a}}" />
+                            <input type="radio" value="true" [checked]="quiz?.questions[selectedQuestion].answers[a].correct === 'true'" name="answercorrect"
+                                id="answercorrect{{a}}" (change)="selectCorrectAnswer(selectedQuestion, a)">
+                            <input #answer="ngModel" [(ngModel)]="quiz?.questions[selectedQuestion].answers[a].answer" required name="answer{{a}}" type="text"
+                                class="form-control" id="answer{{a}}" />
                         </div>
                     </div>
-                    <p-footer>
-                        <button class="btn btn-danger" id="remove" type="button" (click)="remove()">Remove</button>
-                    </p-footer>
+
+                    <button class="btn btn-danger" id="remove" type="button" (click)="remove()">Remove</button>
+
 
 
                     <button class="btn btn-primary" id="add" type="button" (click)="addNewQuestion()">Add Question</button>
