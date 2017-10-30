@@ -13,7 +13,7 @@ import ServiceResult from '../../../../server/models/service-result.model';
 })
 export class QuizCreatorComponent implements OnInit {
   loading: boolean = true;
-  quiz: IQuiz;
+  quiz: any;
   quizId: string;
   selectedQuestion: number = 0;
 

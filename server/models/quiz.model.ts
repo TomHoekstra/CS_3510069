@@ -3,13 +3,14 @@ import * as mongoose from 'mongoose';
 export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
 
-export interface IQuiz extends mongoose.Document {
+export interface IQuiz {
     title: string;
     questions: IQuestion[];
     quizCode: string;
 }
 
 export interface IQuestion {
+    _id: string;
     question: string;
     answers: IAnswer[];
 }
@@ -41,9 +42,7 @@ export const QuestionSchema = new Schema({
 });
 
 
-export interface IMongooseQuiz extends mongoose.Document, IQuiz {
-
-}
+export interface IMongooseQuiz extends mongoose.Document, IQuiz {}
 
 export const QuizSchema = new Schema({
     title: {

@@ -17,12 +17,14 @@ export default class StudentQuiz {
 }
 
 export class StudentQuestion {
+    id: string;
     question: string;
     answers: StudentAnswer[] = new Array();
     index: number;
 
     constructor(question: IQuestion) {
         this.question = question.question;
+        this.id = question._id;
         question.answers.forEach(a => {
             this.answers.push(new StudentAnswer(a))
         });

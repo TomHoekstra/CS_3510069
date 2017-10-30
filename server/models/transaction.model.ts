@@ -8,6 +8,7 @@ export interface ITransaction {
     userId: string;
     sessionId: string;
     quizId: string;
+    questionId: string;
     timespan: number;
     answer: string;   
     result: string;
@@ -34,6 +35,9 @@ export const TransactionSchema = new Schema({
     quizId: {
         type:String,
         required: true
+    },
+    questionId: {
+        type: String
     },
     timespan: {
         type: Number,

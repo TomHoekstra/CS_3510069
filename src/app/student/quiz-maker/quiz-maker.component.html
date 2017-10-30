@@ -2,7 +2,8 @@
   <div class="col-md-12">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h2>Quiz</h2>
+        <h2 *ngIf="!quiz">Quiz</h2>
+        <h2 *ngIf="quiz && !quizResult">{{quiz.title}}</h2>
       </div>
       <div class="panel-body">
         <div class="row">
@@ -15,21 +16,34 @@
           </div>
         </div>
         <div *ngIf="quiz && !quizResult">
-          <p-carousel [value]="quiz.questions" numVisible="1">
-            <ng-template let-question pTemplate="question">
-              <label>{{question.question}}</label>
-              <div class="btn-answer-container" *ngFor="let answer of question.answers; let a = index">
-                <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectCorrectAnswer(question.index, a)"
-                  [ngClass]="{'btn-primary': quiz?.questions[question.index - 1]?.answers[a].selected}">{{answer.answer}}</button>
-              </div>
-            </ng-template>
-          </p-carousel>
+          <div class="pull-right">
+            <label for="questionSelector">Question</label>
+            <select id="questionSelector" [ngModel]="selectedQuestion" name="questionSelector" (ngModelChange)="onChange($event)">
+              <option *ngFor="let question of quiz?.questions; let a=index" [value]="a">{{a + 1}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="question">Question title</label>
+            <input #question="ngModel" [(ngModel)]="quiz.questions[selectedQuestion].question" required name="question" type="text" class="form-control"
+              id="question" />
+          </div>
+
+          <div class="btn-answer-container" *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a = index">
+            <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectedAnswer = a"
+              [ngClass]="{'btn-primary': a === selectedAnswer}">{{answer.answer}}</button>
+          </div>
+
+          <button class="btn btn-primary" id="save" type="button" (click)="submitAnswer()">Select answer </button>
+
           <button class="btn btn-primary" id="save" type="button" (click)="submitQuiz()">Submit Quiz</button>
         </div>
+
         <div *ngIf="quizResult">
           Answers correct: {{quizResult.percentage}}%!
         </div>
+
       </div>
     </div>
   </div>
-</div> 59d7db64a413251d843d78c8
+</div>

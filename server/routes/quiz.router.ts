@@ -70,6 +70,7 @@ export class QuizRouter {
 
     public getQuizForStudents(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
+        
         Quiz.findOne({'quizCode': id}).exec((err, quiz: IMongooseQuiz) => {
             if (err)
                 RouterUtils.handleResponse(res, err, null)

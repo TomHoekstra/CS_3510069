@@ -14,4 +14,14 @@ export class TransactionService {
     return this.http.post('api/transaction/start/', { "guid" : guid, "quizId" : quizId})
       .map((res: Response) => res.json());
   } 
+
+  dodge(guid, quizId, duration, questionId): Observable<ServiceResult<ITransaction>> {
+    return this.http.post('api/transaction/dodge/', { "guid" : guid, "quizId" : quizId, "duration" : duration, "questionId" : questionId })
+      .map((res: Response) => res.json());
+  } 
+
+  response(guid, quizId, duration, questionId, answer): Observable<ServiceResult<ITransaction>> {
+    return this.http.post('api/transaction/response/', { "guid" : guid, "quizId" : quizId, "duration" : duration,  "questionId" : questionId, "answer" : answer })
+      .map((res: Response) => res.json());
+  } 
 }
