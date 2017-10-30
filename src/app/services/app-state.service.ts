@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 export class AppStateService {
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
-    console.log("HI IM BEING CALLED")
     this.checkIfAnyUserIsSignedIn();
   }
 

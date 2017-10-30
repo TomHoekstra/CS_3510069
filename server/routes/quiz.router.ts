@@ -83,7 +83,6 @@ export class QuizRouter {
     public checkQuizAnswers(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
         let studentQuiz: StudentQuiz = req.body;
-        console.log("JE KOMT TOCH HIER LANGS");
         Quiz.findById(id).exec((err, quiz: IMongooseQuiz) => {
             if (err)
                 RouterUtils.handleResponse(res, err, null)
