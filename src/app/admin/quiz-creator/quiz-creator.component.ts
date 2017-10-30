@@ -15,9 +15,14 @@ export class QuizCreatorComponent implements OnInit {
   loading: boolean = true;
   quiz: IQuiz;
   quizId: string;
+  selectedQuestion: number = 0;
 
   constructor(private quizService: QuizService, private messageService: MessageService, private route: ActivatedRoute, private router: Router) {
 
+  }
+
+  onChange(index: number){
+    this.selectedQuestion = index;
   }
 
   ngOnInit() {
@@ -45,9 +50,11 @@ export class QuizCreatorComponent implements OnInit {
 
   addNewQuestion() {
     this.quiz.questions.push(new Question());
+    this.selectedQuestion = this.quiz.questions.length - 1;
   }
 
   selectCorrectAnswer(questionIndex: number, answerIndex: number) {
+    let count = 0;
     this.quiz.questions[questionIndex].answers.forEach(answer => {
       answer.correct = false;
     });
@@ -55,8 +62,8 @@ export class QuizCreatorComponent implements OnInit {
     this.quiz.questions[questionIndex].answers[answerIndex].correct = true;
   }
 
-  remove(index: number) {
-    this.quiz.questions.splice(index, 1);
+  remove() {
+    this.quiz.questions.splice(this.selectedQuestion, 1);
   }
 
   deleteQuiz()

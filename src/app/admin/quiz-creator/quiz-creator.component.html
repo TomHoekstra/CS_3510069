@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <form novalidate #f="ngForm" (ngSubmit)="saveQuiz(f)" *ngIf="!loading">
+        <form ngNativeValidate #f="ngForm" (ngSubmit)="saveQuiz(f)" *ngIf="!loading">
             <div class="panel panel-default">
 
                 <div class="panel-heading">
@@ -8,50 +8,49 @@
                 </div>
                 <div class="panel-body">
 
-                    <div class="form-group" [ngClass]="{'has-feedback' : title.valid === true}">
+                    <div class="form-group">
                         <label for="title">Quiz title</label>
                         <input #title="ngModel" [(ngModel)]="quiz.title" required name="title" type="text" class="form-control" id="title" />
-                        <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'title.valid === true'" aria-hidden="true"></span>
                     </div>
 
-                    <div class="form-group" [ngClass]="{'has-feedback' : quizCode.valid === true}">
-                            <label for="quizCode">Quiz code</label>
-                            <input #quizCode="ngModel" [(ngModel)]="quiz.quizCode" required name="quizCode" type="text" class="form-control" id="quizCode" />
-                            <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'quizCode.valid === true'" aria-hidden="true"></span>
+                    <div class="form-group">
+                        <label for="quizCode">Quiz code</label>
+                        <input #quizCode="ngModel" [(ngModel)]="quiz.quizCode" required name="quizCode" type="text" class="form-control" id="quizCode"/>
+                    </div>
+
+                    <hr/>
+                    <div class="pull-right">
+                        <label for="questionSelector">Question</label>
+                        <select id="questionSelector" [ngModel]="selectedQuestion" name="questionSelector" (ngModelChange)="onChange($event)">
+                            <option *ngFor="let question of quiz?.questions; let a=index" [value]="a">{{a + 1}}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="question">Question title</label>
+                        <input #question="ngModel" [(ngModel)]="quiz.questions[selectedQuestion].question" required name="question" type="text" class="form-control"
+                            id="question" />
+                    </div>
+
+                    <div *ngFor="let answer of quiz?.questions[selectedQuestion]?.answers; let a=index">
+                        <div class="form-group">
+                            <label for="answercorrect{{a}}">Answer</label>
+                            <input type="radio" value="true" [checked]="quiz?.questions[selectedQuestion].answers[a].correct === 'true'" name="answercorrect" id="answercorrect{{a}}"
+                                (change)="selectCorrectAnswer(selectedQuestion, a)">
+                            <input #answer="ngModel" [(ngModel)]="quiz?.questions[selectedQuestion].answers[a].answer" required name="answer{{a}}" type="text" class="form-control"
+                                id="answer{{a}}" />
                         </div>
-
-                    <div *ngFor="let question of quiz?.questions; let q=index">
-                        {{question.question}}
-                        <p-panel [header]="quiz.questions[q].question" [toggleable]="true">
-                            
-                            <div class="form-group" [ngClass]="{'has-feedback' : question.valid === true}">
-                                <label for="question">Question title</label>
-
-                                <input #question="ngModel" [(ngModel)]="quiz.questions[q].question" required name="question{{q}}" type="text" class="form-control"
-                                    id="question{{q}}" />
-                                <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'title.valid === true'" aria-hidden="true"></span>
-                            </div>
-
-                            <div *ngFor="let answer of quiz?.questions[q]?.answers; let a=index">
-                                <div class="form-group" [ngClass]="{'has-feedback' : answer.valid === true}">
-                                    <label for="answercorrect{{a}}">Answer</label>
-                                    <input type="radio" value="true" [checked]="quiz?.questions[q].answers[a].correct" name="answercorrect{{a}}" id="answercorrect{{a}}"
-                                        (change)="selectCorrectAnswer(q, a)">
-                                    <input #answer="ngModel" [(ngModel)]="quiz?.questions[q].answers[a].answer" required name="answer{{a}}" type="text" class="form-control"
-                                        id="answer{{a}}" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback" *ngIf="'title.valid === true'" aria-hidden="true"></span>
-                                </div>
-                            </div>
-                            <p-footer>
-                                    <button class="btn btn-danger" id="remove" type="button" (click)="remove(q)">Remove</button>
-                                </p-footer>
-                        </p-panel>
                     </div>
+                    <p-footer>
+                        <button class="btn btn-danger" id="remove" type="button" (click)="remove()">Remove</button>
+                    </p-footer>
+
 
                     <button class="btn btn-primary" id="add" type="button" (click)="addNewQuestion()">Add Question</button>
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary" id="save" type="submit" [disabled]="!f.valid">Submit Quiz</button>
+                    <button class="btn btn-primary" id="save" type="submit" [disabled]="!f.valid">Save Quiz</button>
                     <button class="btn btn-danger right" id="delete" (click)="deleteQuiz()" type="button">Remove Quiz</button>
                 </div>
 
