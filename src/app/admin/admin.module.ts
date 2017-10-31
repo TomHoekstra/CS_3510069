@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { QuizService } from '../services/quiz.service';
 import { QuizOverviewComponent } from './quiz-overview/quiz-overview.component';
 import { RouterModule } from '@angular/router';
+import { TransactionViewerComponent } from './transaction-viewer/transaction-viewer.component';
+import { LiveQuizComponent } from './live-quiz/live-quiz.component';
 
 @NgModule({
   imports: [
@@ -14,6 +16,6 @@ import { RouterModule } from '@angular/router';
     RouterModule 
   ],
   providers: [QuizService],
-  declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent]
+  declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent, TransactionViewerComponent, LiveQuizComponent]
 })
 export class AdminModule { }

@@ -65,7 +65,9 @@
     "component": {
       "spec": false,
       "inlineStyle": true,
-      "inlineTemplate": false
+      "inlineTemplate": false,
+      "viewEncapsulation": "Emulated",
+      "changeDetection": "Default"
     },
     "directive": {
       "spec": false

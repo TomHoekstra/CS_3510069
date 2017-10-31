@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>Transaction overview</h2>
+            </div>
+            <div class="panel-body">
+              {{search for quizId}}
+              
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-md-10">Quiz title</th>
+                            <th class="col-md-1">Questions</th>
+                            <th class="col-md-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let quiz of quizzes">
+                            <td class="col-md-10">{{quiz.title}}</td>
+                            <td class="col-md-1">{{quiz.questions.length}}</td>
+                            <td class="col-md-1"><button class="btn btn-primary right" (click)="edit(quiz)" id="edit" type="button">Edit</button></td>
+                        </tr>                   
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
