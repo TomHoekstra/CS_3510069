@@ -19,6 +19,7 @@ export class TransactionRouter {
         this.router.post('/start', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.startTransaction(request, response, next));
         this.router.post('/dodge', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.dodgeTransaction(request, response, next));
         this.router.post('/response', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.responseTransaction(request, response, next));
+        this.router.post('/finish', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.finishTransaction(request, response, next));
     }
 
     private startTransaction(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -80,15 +81,31 @@ export class TransactionRouter {
                 RouterUtils.handleResponse(res, err, null)
 
             let question = quiz.questions.filter(q => q._id == transaction.questionId)[0];
-
-            // console.log(question.answers.filter(a => Boolean(a.correct) === Boolean(true)));
-            console.log(question.answers.indexOf(question.answers.filter(a => Boolean(a.correct) === Boolean(true))[0]));
+            let answer = question.answers.indexOf(question.answers.filter(a => a.correct === true)[0]);
+            transaction.result =  String.fromCharCode(97 + answer).toUpperCase();
 
             Transaction.create(transaction, (err, transaction: IMongooseTransaction) => {
                 RouterUtils.handleResponse(res, err, transaction);
             });
         });
+    }
 
+    private finishTransaction(req: express.Request, res: express.Response, next: express.NextFunction) {
+        let transaction: any = {};
 
+        transaction.timestamp = new Date();
+        transaction.quizId = req.body.quizId;
+        transaction.sessionId = req.body.guid;
+        transaction.timespan = req.body.duration;
+
+        let token = req.signedCookies['access_token'];
+        let user = AuthUtils.decodeAccesToken(token).user;
+        transaction.userId = user.studentId;
+
+        transaction.event = 'Finish';
+
+        Transaction.create(transaction, (err, transaction: IMongooseTransaction) => {
+            RouterUtils.handleResponse(res, err, transaction);
+        });
     }
 }

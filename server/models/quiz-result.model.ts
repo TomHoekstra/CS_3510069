@@ -11,7 +11,7 @@ export class QuizResult {
 
             for (var n = 0; n < quiz.questions[i].answers.length; n++) {
 
-                if (quiz.questions[i].answers[n].correct.toString() === 'true') {
+                if (quiz.questions[i].answers[n].correct === true) {
                     correctedAnswer.correctAnswer = quiz.questions[i].answers[n].answer;
                 }
 

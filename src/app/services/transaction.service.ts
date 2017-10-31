@@ -24,4 +24,9 @@ export class TransactionService {
     return this.http.post('api/transaction/response/', { "guid" : guid, "quizId" : quizId, "duration" : duration,  "questionId" : questionId, "answer" : answer })
       .map((res: Response) => res.json());
   } 
+
+  finish(guid, quizId, duration): Observable<ServiceResult<ITransaction>> {
+    return this.http.post('api/transaction/finish/', { "guid" : guid, "quizId" : quizId, "duration" : duration})
+      .map((res: Response) => res.json());
+  } 
 }

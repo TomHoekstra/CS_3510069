@@ -84,10 +84,11 @@ export class QuizRouter {
     public checkQuizAnswers(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
         let studentQuiz: StudentQuiz = req.body;
-        Quiz.findById(id).exec((err, quiz: IMongooseQuiz) => {
+        Quiz.findOne({'quizCode': id}).exec((err, quiz: IMongooseQuiz) => {
             if (err)
                 RouterUtils.handleResponse(res, err, null)
 
+            console.log("Found the quiz");
             let quizResult = new QuizResult(quiz, studentQuiz)
             RouterUtils.handleResponse(res, err, quizResult);
         });

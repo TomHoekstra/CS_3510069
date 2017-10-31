@@ -10,7 +10,7 @@ export class Quiz implements IQuiz {
     }
 }
 
-export class Question implements IQuestion {
+export class Question {
     question: string;
     answers: IAnswer[] = new Array();
 

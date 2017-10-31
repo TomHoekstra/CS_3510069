@@ -32,6 +32,7 @@ export class QuizCreatorComponent implements OnInit {
         this.retrieveExistingQuiz(this.quizId);
       } else {
         this.quiz = new Quiz();
+        this.addNewQuestion();
         this.loading = false;
       }
     });
