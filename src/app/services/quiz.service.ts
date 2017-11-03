@@ -34,7 +34,7 @@ export class QuizService {
   }
 
   deleteQuiz(id: string): Observable<ServiceResult<IQuiz>> {
-    return this.http.delete(`api/quiz/update/${id}`)
+    return this.http.delete(`api/quiz/delete/${id}`)
       .map((res: Response) => res.json());
   }
   

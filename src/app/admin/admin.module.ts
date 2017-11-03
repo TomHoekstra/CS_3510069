@@ -8,14 +8,16 @@ import { QuizOverviewComponent } from './quiz-overview/quiz-overview.component';
 import { RouterModule } from '@angular/router';
 import { TransactionViewerComponent } from './transaction-viewer/transaction-viewer.component';
 import { LiveQuizComponent } from './live-quiz/live-quiz.component';
+import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    ConfirmDialogModule
   ],
-  providers: [QuizService],
+  providers: [QuizService, ConfirmationService],
   declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent, TransactionViewerComponent, LiveQuizComponent]
 })
 export class AdminModule { }

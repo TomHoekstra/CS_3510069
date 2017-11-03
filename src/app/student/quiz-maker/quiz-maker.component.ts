@@ -62,7 +62,7 @@ export class QuizMakerComponent {
     });
   }
 
-  onChange(index: number) {
+  click(index: number) {
     if (!this.quizResult) {
       let questionId = this.quiz.questions[this.selectedQuestion].id;
       this.transactionService.dodge(this.sessionId, this.quizId, this.questionDuration, questionId).subscribe((result) => {
@@ -169,6 +169,11 @@ export class QuizMakerComponent {
     });
 
     return result;
+  }
+
+  checkIfWrong(index: number, answer: string)
+  {
+    return index === this.selectedAnswer && answer !== this.quizResult.correctedAnswers[this.selectedQuestion].correctAnswer
   }
 
 }

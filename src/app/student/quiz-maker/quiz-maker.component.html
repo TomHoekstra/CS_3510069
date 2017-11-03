@@ -17,48 +17,42 @@
           </div>
         </div>
 
-        <div *ngIf="quiz && !quizResult">
-          <div class="pull-right">
-            <label for="questionSelector">Question</label>
-            <select id="questionSelector" [ngModel]="selectedQuestion" name="questionSelector" (ngModelChange)="onChange($event)">
-              <option *ngFor="let question of quiz?.questions; let a=index" [value]="a">{{a + 1}}</option>
-            </select>
-          </div>
+        <div *ngIf="quiz">
+          <h3 *ngIf="!quizResult">{{quiz.questions[selectedQuestion].question}}</h3>
+          <h3 *ngIf="quizResult">{{quiz.questions[selectedQuestion].question}}</h3>
 
-          <h3>{{quiz.questions[selectedQuestion].question}}</h3>
           <div class="btn-answer-container">
-            <div *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a = index">
-              <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectedAnswer = a" [ngClass]="{'btn-primary': a === selectedAnswer}">{{answer.answer}}</button>
+            <div *ngIf="!quizResult">
+              <div *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a = index">
+                <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectedAnswer = a" [ngClass]="{'btn-primary': a === selectedAnswer}">{{answer.answer}}</button>
+              </div>
             </div>
 
-            <button class="btn btn-primary" id="save" type="button" (click)="submitAnswer()">Select answer </button>
+            <div *ngIf="quizResult">
+              <div *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a = index">
+                  <button class="btn btn-basic btn-answer" name="option{{a}}" id="option{{a}}" (click)="selectedAnswer = a" 
+                  [ngClass]="{'btn-primary': a === selectedAnswer, 'btn-danger': checkIfWrong(a, answer.answer)}">
+                    <i *ngIf="answer.answer === quizResult.correctedAnswers[selectedQuestion].correctAnswer" class="fa fa-check correct" aria-hidden="true"></i>
+                    {{answer.answer}}
+                  </button>
+                </div>
+            </div>
+
+            <button *ngIf="!quizResult" class="btn btn-primary" id="save" type="button" (click)="submitAnswer()">Select answer </button>
+
+            <div class="pagination-box">
+              <ul class="pagination">
+                <li *ngFor="let question of quiz?.questions; let q=index" [ngClass]="{'active': q === selectedQuestion}">
+                  <a class="hover-pointer" (click)="click(q)">{{q + 1}}</a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="panel-footer">
+
+          <div class="panel-footer" *ngIf="!quizResult">
             <button class="btn btn-success" id="save" type="button" (click)="submitQuiz()">Submit Quiz</button>
           </div>
 
-        </div>
-
-        <div *ngIf="quizResult">
-
-
-          <div class="pull-right">
-            <label for="questionSelector">Question</label>
-            <select id="questionSelector" [ngModel]="selectedQuestion" name="questionSelector" (ngModelChange)="onChange($event)">
-              <option *ngFor="let question of quiz?.questions; let a=index" [value]="a">{{a + 1}}</option>
-            </select>
-          </div>
-
-          <h3>{{quiz.questions[selectedQuestion].question}}</h3>
-
-          <div class="btn-answer-container">
-            <h4>Correct Answer</h4>
-            <button class="btn btn-primary btn-answer" name="option{{a}}" id="option{{a}}">{{quizResult.correctedAnswers[selectedQuestion].correctAnswer}}</button>
-            <h4>Your Answer</h4>
-            <button class="btn btn-answer" name="option{{a}}" id="option{{a}}" [ngClass]="{'btn-success': quizResult.correctedAnswers[selectedQuestion].correct, 'btn-danger': !quizResult.correctedAnswers[selectedQuestion].correct}">
-              {{quizResult.correctedAnswers[selectedQuestion].studentAnswer}}
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { QuizService } from '../../services/quiz.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ActivatedRoute, Router } from '@angular/router';
 import ServiceResult from '../../../../server/models/service-result.model';
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'app-quiz-creator',
@@ -17,11 +18,11 @@ export class QuizCreatorComponent implements OnInit {
   quizId: string;
   selectedQuestion: number = 0;
 
-  constructor(private quizService: QuizService, private messageService: MessageService, private route: ActivatedRoute, private router: Router) {
+  constructor(private quizService: QuizService, private messageService: MessageService, private route: ActivatedRoute, private router: Router, private confirmationService: ConfirmationService) {
 
   }
 
-  onChange(index: number){
+  click(index: number) {
     this.selectedQuestion = index;
   }
 
@@ -64,35 +65,46 @@ export class QuizCreatorComponent implements OnInit {
   }
 
   remove() {
-    this.quiz.questions.splice(this.selectedQuestion, 1);
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        let questionId = this.selectedQuestion
+
+        this.selectedQuestion--;
+
+        this.quiz.questions.splice(questionId, 1);
+      }
+    });
   }
 
-  deleteQuiz()
-  {
-    if (!this.quizId) {
-      this.navigateToAdmin();
-      this.messageService.add({ severity: 'info', summary: 'No Quiz Saved', detail: `You've cancelled creating a quiz`});
-    }
-    else{
-      this.quizService.deleteQuiz(this.quizId).subscribe((result) => {
-        if (result.success) {
-          this.navigateToOverview();
-          this.messageService.add({ severity: 'success', summary: 'No Quiz Saved', detail: `You've deleted a quiz`});
+  deleteQuiz() {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to perform this action?',
+      accept: () => {
+        if (!this.quizId) {
+          this.navigateToAdmin();
+          this.messageService.add({ severity: 'info', summary: 'No Quiz Saved', detail: `You've cancelled creating a quiz` });
         }
         else {
-          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
+          this.quizService.deleteQuiz(this.quizId).subscribe((result) => {
+            if (result.success) {
+              this.navigateToOverview();
+              this.messageService.add({ severity: 'success', summary: 'No Quiz Saved', detail: `You've deleted a quiz` });
+            }
+            else {
+              this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
+            }
+          });
         }
-      });
-    }
+      }
+    });
   }
 
-  navigateToAdmin()
-  {
+  navigateToAdmin() {
     this.router.navigate(['/quiz/overview']);
   }
 
-  navigateToOverview()
-  {
+  navigateToOverview() {
     this.router.navigate(['/quiz/overview']);
   }
 
@@ -109,7 +121,7 @@ export class QuizCreatorComponent implements OnInit {
           }
         });
       }
-      else{
+      else {
         this.quizService.updateQuiz(this.quiz, this.quizId).subscribe((result) => {
           if (result.success) {
             this.navigateToOverview();
