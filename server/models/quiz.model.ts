@@ -1,4 +1,7 @@
 import * as mongoose from 'mongoose';
+import * as autoIncrement from 'mongoose-auto-increment';
+
+autoIncrement.initialize(mongoose.connection);
 
 export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
@@ -40,14 +43,15 @@ export const QuestionSchema = new Schema({
         AnswerSchema
     ],
 });
-
+QuestionSchema.plugin(autoIncrement.plugin, 'Question');
 
 export interface IMongooseQuiz extends mongoose.Document, IQuiz {}
 
 export const QuizSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     questions: [
         QuestionSchema
@@ -58,5 +62,7 @@ export const QuizSchema = new Schema({
     }
 });
 
+
+QuizSchema.plugin(autoIncrement.plugin, 'Quiz');
 const Quiz = mongoose.model<IQuiz>('Quiz', QuizSchema, 'quiz', true);
 export default Quiz;
