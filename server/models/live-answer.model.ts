@@ -4,6 +4,7 @@ export let Schema = mongoose.Schema;
 export let ObjectId = mongoose.Schema.Types.ObjectId;
 
 export interface ILiveAnswer {
+    quizId: string;
     questionId: string;
     studentId: string;
     answer: string;
@@ -14,12 +15,16 @@ export const LiveAnswerSchema = new Schema({
         type: String,
         required: true
     },
+    quizId: {
+        type: String,
+        required: true
+    },
     studentId: {
         type: String,
         required: true
     },
     answer: {
-        type: String,
+        type: Number,
         required: true
     }
 });
@@ -27,5 +32,5 @@ export const LiveAnswerSchema = new Schema({
 
 export interface IMongooseLiveAnswer extends mongoose.Document, ILiveAnswer { }
 
-const Quiz = mongoose.model<ILiveAnswer>('LiveAnswer', LiveAnswerSchema, 'LiveAnswers', true);
-export default Quiz;
+const LiveAnswer = mongoose.model<ILiveAnswer>('LiveAnswer', LiveAnswerSchema, 'liveAnswers', true);
+export default LiveAnswer;

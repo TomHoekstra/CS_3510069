@@ -6,6 +6,7 @@ import { QuizResult } from '../../../../server/models/quiz-result.model';
 import { GuidService } from '../../services/guid.service';
 import { TransactionService } from '../../services/transaction.service';
 import { Observable } from 'rxjs/Observable';
+import { LiveAnswerService } from '../../services/live-answer.service';
 
 @Component({
   selector: 'app-quiz-maker',
@@ -23,7 +24,7 @@ export class QuizMakerComponent {
   private quizDuration: number;
   private questionDuration: number;
 
-  constructor(private messageService: MessageService, private quizService: QuizService, private guidService: GuidService, private transactionService: TransactionService) { }
+  constructor(private messageService: MessageService, private quizService: QuizService, private guidService: GuidService, private transactionService: TransactionService, private liveAnswerService: LiveAnswerService) { }
 
   searchQuiz() {
     if (!this.quizId || this.quizId === '') {
@@ -101,6 +102,12 @@ export class QuizMakerComponent {
     this.quiz.questions[this.selectedQuestion].answers[this.selectedAnswer].selected = true;
 
     let questionId = this.quiz.questions[this.selectedQuestion].id;
+
+    this.liveAnswerService.updateOrCreateAnswer(this.quizId, questionId, this.selectedAnswer).subscribe((result) => {
+      if (result.msg) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Selected answer hasn't been submitted" });
+      }
+    });
 
     this.transactionService.response(this.sessionId, this.quizId, this.questionDuration, questionId, this.selectedAnswer).subscribe((result) => {
       if (result.msg) {

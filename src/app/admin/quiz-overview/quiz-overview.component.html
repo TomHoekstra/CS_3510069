@@ -9,15 +9,17 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th class="col-md-10">Quiz title</th>
+                            <th class="col-md-9">Quiz title</th>
                             <th class="col-md-1">Questions</th>
+                            <th class="col-md-1"></th>
                             <th class="col-md-1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let quiz of quizzes">
-                            <td class="col-md-10">{{quiz.title}}</td>
+                            <td class="col-md-9">{{quiz.title}}</td>
                             <td class="col-md-1">{{quiz.questions.length}}</td>
+                            <td class="col-md-1"><button class="btn btn-primary right" (click)="removeAnswers(quiz)" id="edit" type="button">Reset</button></td>
                             <td class="col-md-1"><button class="btn btn-primary right" (click)="edit(quiz)" id="edit" type="button">Edit</button></td>
                         </tr>                   
                     </tbody>

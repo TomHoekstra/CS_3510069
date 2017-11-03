@@ -4,6 +4,7 @@ import { QuizService } from '../../services/quiz.service';
 import ServiceResult from '../../../../server/models/service-result.model';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Router } from '@angular/router';
+import { LiveAnswerService } from '../../services/live-answer.service';
 
 @Component({
   selector: 'app-quiz-overview',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 export class QuizOverviewComponent implements OnInit {
   quizzes: IQuiz[];
 
-  constructor(private quizService: QuizService, private messageService: MessageService, private router: Router) { }
+  constructor(private quizService: QuizService, private messageService: MessageService, private router: Router, private liveAnswerService: LiveAnswerService) { }
 
   ngOnInit() {
     this.quizService.getAllQuizzes().subscribe((result: ServiceResult<IQuiz[]>) => {
@@ -21,6 +22,18 @@ export class QuizOverviewComponent implements OnInit {
         this.quizzes = result.model;
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
+      }
+    });
+  }
+
+  removeAnswers(quiz)
+  {
+    this.liveAnswerService.resetQuiz(quiz.quizCode).subscribe((result) => {
+      if (result.msg) {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Quiz couldn't be reset" });
+      }
+      else{
+        this.messageService.add({ severity: 'success', summary: 'Confirmation', detail: `All live answers for ${quiz.quizCode}-quiz have been reset`});
       }
     });
   }

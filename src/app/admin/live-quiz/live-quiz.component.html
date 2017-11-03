@@ -5,6 +5,17 @@
     <span>Start the quiz!</span>
   </a>
 </div>
-<div class="col-md-6 col-md-offset-3" *ngIf="quiz">
-    <p-chart type="pie" [data]="data"></p-chart>
+<div *ngIf="quiz">
+
+  <div>
+    <label for="questionSelector">Question</label>
+    <select class="form-control" id="questionSelector" [ngModel]="selectedQuestion" name="questionSelector" (ngModelChange)="onChange($event)">
+      <option *ngFor="let question of quiz?.questions; let a=index" [value]="a">{{question.question}}</option>
+    </select>
+  </div>
+  <div class="row">
+    <div class="col-md-6" *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a=index">
+      {{calculateTotalAnswers(a)}} {{answer.answer}}
+
+    </div>
   </div>

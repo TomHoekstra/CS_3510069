@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { QuizService } from "./quiz.service";
 import { GuidService } from "./guid.service";
 import { TransactionService } from "./transaction.service";
+import { LiveAnswerService } from "./live-answer.service";
 
 @NgModule({
   providers: [
@@ -11,7 +12,8 @@ import { TransactionService } from "./transaction.service";
     AppStateService,
     QuizService,
     GuidService,
-    TransactionService
+    TransactionService,
+    LiveAnswerService
   ]
 })
 

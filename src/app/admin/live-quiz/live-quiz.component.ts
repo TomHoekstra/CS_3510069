@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { QuizService } from '../../services/quiz.service';
+import { LiveAnswerService } from '../../services/live-answer.service';
 
 @Component({
   selector: 'app-live-quiz',
@@ -9,32 +10,35 @@ import { QuizService } from '../../services/quiz.service';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class LiveQuizComponent implements OnInit {
+export class LiveQuizComponent {
   public quizId: string;
   public quiz: any;
-  public data: any;
+  public results: any;
+  public selectedQuestion = 0;
 
-  constructor(private messageService: MessageService, private quizService: QuizService) { }
+  public barChartOptions: any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartType: string = 'bar';
+  public barChartLegend: boolean = false;
+  public barChartData: any[] = [];
+  public barChartLabels: string[] = ['Answers'];
 
-  ngOnInit() {
-    this.data = {
-      labels: ['A', 'B', 'C'],
-      datasets: [
-        {
-          data: [300, 50, 100],
-          backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ],
-          hoverBackgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56"
-          ]
-        }]
-    };
+  getBarChartData() {
+    this.barChartData = [];
+
+    for (let i = 0; i < 4; i++) {
+      var answerCount = this.results.filter(res => {
+        res.answer === i;
+      }).length;
+
+      this.barChartData.push({ data: [answerCount], label: `Answer ${String.fromCharCode(97 + i).toUpperCase()}` });
+    }
+
   }
+
+  constructor(private messageService: MessageService, private quizService: QuizService, private liveAnswerService: LiveAnswerService) { }
 
   searchQuiz() {
     if (!this.quizId || this.quizId === '') {
@@ -48,6 +52,8 @@ export class LiveQuizComponent implements OnInit {
           }
           else {
             this.quiz = result.model;
+
+            this.getAnswers();
           }
         }
         else {
@@ -57,6 +63,24 @@ export class LiveQuizComponent implements OnInit {
     }
   }
 
+  getAnswers() {
+    let questionId = this.quiz.questions[this.selectedQuestion].id;
+
+    this.liveAnswerService.getAnswersByQuestion(questionId).subscribe((result) => {
+      if (result.model) {
+        this.results = result.model;
+        this.getBarChartData();
+      }
+      else {
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
+      }
+    });
+  }
+
+  onChange(index: number) {
+    this.selectedQuestion = index;
+    this.getAnswers()
+  }
 
 
 }
