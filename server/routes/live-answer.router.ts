@@ -20,7 +20,7 @@ export class LiveAnswerRouter {
 
     init() {
         this.router.post('/answer', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateOrCreateAnswer(request, response, next));
-        this.router.get('/results/:id', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuestionResult(request, response, next));
+        this.router.post('/results', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuestionResult(request, response, next));
         this.router.delete('/results/:id', (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuizAnswers(request, response, next));
     }
 
@@ -35,10 +35,13 @@ export class LiveAnswerRouter {
     }
 
     private getQuestionResult(req: express.Request, res: express.Response, next: express.NextFunction) {
-        let questionId = req.params.id;
+        let questionId = req.body;
 
         LiveAnswer.find({
-            "questionId": questionId
+            $and: [
+                { "questionId": req.body.questionId },
+                { "quizId": req.body.quizId }
+            ]
         }, (err, liveAnswers: IMongooseLiveAnswer[]) => {
             RouterUtils.handleResponse(res, err, liveAnswers);
         });

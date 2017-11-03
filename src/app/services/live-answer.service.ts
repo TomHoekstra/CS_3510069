@@ -20,8 +20,8 @@ export class LiveAnswerService {
       .map((res: Response) => res.json());
   }  
 
-  getAnswersByQuestion(questionId): Observable<ServiceResult<ILiveAnswer>> {
-    return this.http.get(`api/live-answer/results/${questionId}`)
+  getAnswersByQuestion(questionId, quizId): Observable<ServiceResult<ILiveAnswer>> {
+    return this.http.post(`api/live-answer/results/`, { "quizId" : quizId, "questionId" : questionId })
       .map((res: Response) => res.json());
   }  
 }

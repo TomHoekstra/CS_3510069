@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@
 import { MessageService } from 'primeng/components/common/messageservice';
 import { QuizService } from '../../services/quiz.service';
 import { LiveAnswerService } from '../../services/live-answer.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-live-quiz',
@@ -16,26 +17,26 @@ export class LiveQuizComponent {
   public results: any;
   public selectedQuestion = 0;
 
-  public barChartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = false;
-  public barChartData: any[] = [];
-  public barChartLabels: string[] = ['Answers'];
+  bgcolor: string[] = [
+    '#0066ff',
+    '#993333',
+    '#b38600',
+    '#990099'
+  ]
 
-  getBarChartData() {
-    this.barChartData = [];
 
-    for (let i = 0; i < 4; i++) {
-      var answerCount = this.results.filter(res => {
-        res.answer === i;
-      }).length;
 
-      this.barChartData.push({ data: [answerCount], label: `Answer ${String.fromCharCode(97 + i).toUpperCase()}` });
+  getAnswerCount(index: number) {
+    if (this.results) {
+      let count = 0;
+      this.results.forEach(el => {
+        if (el.answer === index) {
+          count++;
+        }
+      });
+
+      return count;
     }
-
   }
 
   constructor(private messageService: MessageService, private quizService: QuizService, private liveAnswerService: LiveAnswerService) { }
@@ -52,8 +53,7 @@ export class LiveQuizComponent {
           }
           else {
             this.quiz = result.model;
-
-            this.getAnswers();
+            this.startTimer();
           }
         }
         else {
@@ -63,13 +63,17 @@ export class LiveQuizComponent {
     }
   }
 
+  startTimer() {
+    let questionTimer = Observable.timer(0, 5000);
+    questionTimer.subscribe(t => this.getAnswers());
+  }
+
   getAnswers() {
     let questionId = this.quiz.questions[this.selectedQuestion].id;
 
-    this.liveAnswerService.getAnswersByQuestion(questionId).subscribe((result) => {
+    this.liveAnswerService.getAnswersByQuestion(questionId, this.quizId).subscribe((result) => {
       if (result.model) {
         this.results = result.model;
-        this.getBarChartData();
       }
       else {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
@@ -77,7 +81,7 @@ export class LiveQuizComponent {
     });
   }
 
-  onChange(index: number) {
+  click(index: number) {
     this.selectedQuestion = index;
     this.getAnswers()
   }

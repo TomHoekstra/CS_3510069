@@ -35,9 +35,7 @@
                                 class="form-control" id="answer{{a}}" />
                         </div>
                     </div>
-
-                    {{selectedQuestion}}
-
+                    
                     <button class="btn btn-danger right" *ngIf="selectedQuestion !== 0" id="remove" type="button" (click)="remove()">Remove</button>
                     <button class="btn btn-primary" id="add" type="button" (click)="addNewQuestion()">Add Question</button>
 
