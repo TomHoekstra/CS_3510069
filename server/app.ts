@@ -14,6 +14,7 @@ import Auth from './middleware/auth';
 import { QuizRouter } from './routes/quiz.router';
 import { TransactionRouter } from './routes/transaction.router';
 import { LiveAnswerRouter } from './routes/live-answer.router';
+import { StudentRouter } from './routes/student.router';
 
 
 
@@ -61,6 +62,7 @@ class App {
         router.use("/quiz", new QuizRouter().router);
         router.use("/transaction", new TransactionRouter().router);
         router.use("/live-answer", new LiveAnswerRouter().router);
+        router.use("/student", new StudentRouter().router);
     }
 }
 

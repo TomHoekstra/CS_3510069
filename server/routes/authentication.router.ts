@@ -5,6 +5,7 @@ import User, { IMongooseUser } from '../models/user.model';
 import AuthUtils from '../utils/auth.utils';
 import { IUserData } from '../models/user-data.model';
 import Auth from '../middleware/auth';
+import Student, { IMongooseStudent } from '../models/student.model';
 
 export class AuthenticationRouter {
     public router: express.Router;
@@ -25,28 +26,34 @@ export class AuthenticationRouter {
     //Registering a student
     private register(req: express.Request, res: express.Response, next: express.NextFunction) {
         let newUser = req.body;
-        
-        // Model.find `$or` Mongoose condition, Check if studentId or Email is in use
-        User.findOne({
-            $or: [
-                { "studentId": newUser.studentId },
-                { "email": newUser.email }
-            ]
-        }, (err, user) => {
-            // If there are any errors, return the error
-            if (err)
-                RouterUtils.handleResponse(res, err, user);
 
-            // If a user exists with either of those ...
-            if (user) {
-                RouterUtils.handleResponse(res, "That student id/email is already taken.", user);
-            } else {
-                newUser.role = "student";
-                // Save the new user
-                User.create(newUser, (err, createdUser: IMongooseUser) => {
-                    RouterUtils.handleResponse(res, err, createdUser);
+        Student.findOne({ "studentId": newUser.studentId }).exec((err, student: IMongooseStudent) => {
+            if (student === null)
+                RouterUtils.handleResponse(res, "You are not registered for this course", student);
+            else {
+                // Model.find `$or` Mongoose condition, Check if studentId or Email is in use
+                User.findOne({
+                    $or: [
+                        { "studentId": newUser.studentId },
+                        { "email": newUser.email }
+                    ]
+                }, (err, user) => {
+                    // If there are any errors, return the error
+                    if (err)
+                        RouterUtils.handleResponse(res, err, user);
+
+                    // If a user exists with either of those ...
+                    if (user) {
+                        RouterUtils.handleResponse(res, "That student id/email is already taken.", user);
+                    } else {
+                        newUser.role = "student";
+                        // Save the new user
+                        User.create(newUser, (err, createdUser: IMongooseUser) => {
+                            RouterUtils.handleResponse(res, err, createdUser);
+                        });
+                    };
                 });
-            };
+            }
         });
     }
 

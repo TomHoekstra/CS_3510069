@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        <h2>Register students</h2>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-6">
+            <table *ngIf="students" class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="col-md-6">Student ID</th>
+                  <th class="col-md-6"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of students; let s = index">
+                  <td class="col-md-6">{{student.studentId}}</td>
+                  <td class="col-md-6">
+                    <button class="btn btn-danger right" id="delete" (click)="removeStudent(s)" type="button">Remove student</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+         <button class="btn btn-primary" id="save" (click)="saveStudents()" type="button">Save students</button>
+          </div>
+          <div class="col-md-6">
+            <form ngNativeValidate #f="ngForm" (ngSubmit)="addStudents(f)">
+              <label for="studentsField">Add students by typing a comma seperated string here</label>
+              <textarea [(ngModel)]="studentsField" required name="studentsField" type="text" class="form-control"></textarea>
+              <br/>
+              <button class="btn btn-primary" type="submit">Add Students</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>

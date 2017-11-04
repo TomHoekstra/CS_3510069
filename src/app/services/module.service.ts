@@ -5,6 +5,7 @@ import { QuizService } from "./quiz.service";
 import { GuidService } from "./guid.service";
 import { TransactionService } from "./transaction.service";
 import { LiveAnswerService } from "./live-answer.service";
+import { StudentService } from "./student.service";
 
 @NgModule({
   providers: [
@@ -13,7 +14,8 @@ import { LiveAnswerService } from "./live-answer.service";
     QuizService,
     GuidService,
     TransactionService,
-    LiveAnswerService
+    LiveAnswerService,
+    StudentService
   ]
 })
 

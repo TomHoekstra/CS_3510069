@@ -11,6 +11,7 @@ import { AdminAuthGuard } from "./guard/admin-auth.guard";
 import { QuizMakerComponent } from "./student/quiz-maker/quiz-maker.component";
 import { TransactionViewerComponent } from "./admin/transaction-viewer/transaction-viewer.component";
 import { LiveQuizComponent } from "./admin/live-quiz/live-quiz.component";
+import { StudentComponent } from "./admin/student/student.component";
 
 const routes: Routes = [
     { path: "", component: LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
     { path: "register", component: RegisterComponent},
     { path: "student", component: StudentStartComponent, canActivate: [StudentAuthGuard] },
     { path: "admin", component: AdminStartComponent, canActivate: [AdminAuthGuard]},
+    { path: "admin/student", component: StudentComponent, canActivate: [AdminAuthGuard]},
     { path: "transactions", component: TransactionViewerComponent, canActivate: [AdminAuthGuard]},
     { path: "quiz/creator", component: QuizCreatorComponent, canActivate: [AdminAuthGuard]},
     { path: "quiz/creator/:id", component: QuizCreatorComponent, canActivate: [AdminAuthGuard]},

@@ -10,6 +10,7 @@ import { TransactionViewerComponent } from './transaction-viewer/transaction-vie
 import { LiveQuizComponent } from './live-quiz/live-quiz.component';
 import {ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
 import { PipesModule } from '../pipes/module.pipes';
+import { StudentComponent } from './student/student.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { PipesModule } from '../pipes/module.pipes';
     PipesModule,
   ],
   providers: [QuizService, ConfirmationService],
-  declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent, TransactionViewerComponent, LiveQuizComponent]
+  declarations: [AdminStartComponent, QuizCreatorComponent, QuizOverviewComponent, TransactionViewerComponent, LiveQuizComponent, StudentComponent]
 })
 export class AdminModule { }
