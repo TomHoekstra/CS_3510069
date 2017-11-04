@@ -42,7 +42,7 @@ export class LiveQuizComponent {
 
   searchQuiz() {
     if (!this.quizId || this.quizId === '') {
-      this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: "Atleast fill something in!" });
+      this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: 'Atleast fill something in!' });
     }
     else {
       this.quizService.getQuizByQuizCode(this.quizId).subscribe((result) => {
@@ -51,7 +51,6 @@ export class LiveQuizComponent {
             this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: `No quiz found!` });
           }
           else {
-            console.log(result.model);
             this.quiz = result.model;
             this.startTimer();
           }

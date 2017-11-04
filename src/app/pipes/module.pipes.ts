@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { TransactionFilter } from "./transaction-filter.pipes";
+import { NgModule } from '@angular/core';
+import { TransactionFilter } from './transaction-filter.pipes';
 
 
 @NgModule({

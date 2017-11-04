@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import ServiceResult from "../../../server/models/service-result.model";
+import { Injectable } from '@angular/core';
+import ServiceResult from '../../../server/models/service-result.model';
 import { Http, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { IQuiz } from "../../../server/models/quiz.model";
-import { Quiz } from "../models/quiz.model";
-import StudentQuiz from "../../../server/models/student-quiz.model";
-import { QuizResult } from "../../../server/models/quiz-result.model";
+import { IQuiz } from '../../../server/models/quiz.model';
+import { Quiz } from '../models/quiz.model';
+import StudentQuiz from '../../../server/models/student-quiz.model';
+import { QuizResult } from '../../../server/models/quiz-result.model';
 
 @Injectable()
 export class QuizService {

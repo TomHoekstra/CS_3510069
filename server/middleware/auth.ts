@@ -1,5 +1,5 @@
-const passport = require("passport");
-const passportJWT = require("passport-jwt");
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const Strategy = passportJWT.Strategy;
@@ -27,7 +27,7 @@ export class Auth {a
       if (user) {
         return done(null, user);
       } else {
-        return done(new Error("User not found"), null);
+        return done(new Error('User not found'), null);
       }
     });
     
@@ -41,7 +41,7 @@ export class Auth {a
   private cookieExtractor(req) {
     let token = null;
     if (req && req.signedCookies) {
-      token = req.signedCookies["access_token"];
+      token = req.signedCookies['access_token'];
     }
     return token;
   }
@@ -54,7 +54,7 @@ export class Auth {a
    * Gets called as a middleware for http request you want to secure using the access_token.
    */
   authenticate() {
-    return passport.authenticate("jwt", {
+    return passport.authenticate('jwt', {
       session: false
     });
   }

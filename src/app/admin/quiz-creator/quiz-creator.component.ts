@@ -133,7 +133,7 @@ export class QuizCreatorComponent implements OnInit {
       }
     }
     else {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "The quiz isn't correct yet" });
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `The quiz isn't correct yet` });
     }
   }
 }

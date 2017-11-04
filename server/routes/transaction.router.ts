@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Observable, AsyncSubject } from "rxjs/Rx";
+import { Observable, AsyncSubject } from 'rxjs/Rx';
 import RouterUtils from '../utils/router.utils';
 import Auth from '../middleware/auth';
 import Transaction, { IMongooseTransaction, ITransaction } from '../models/transaction.model';

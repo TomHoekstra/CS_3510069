@@ -43,11 +43,11 @@ export class AppStateService {
   }
 
   public roleIsStudentOrAdmin() {
-    return this.currentUser.role === "student" || this.roleIsAdmin;
+    return this.currentUser.role === 'student' || this.roleIsAdmin;
   }
 
   public roleIsAdmin(){
-    return this.currentUser.role === "admin"
+    return this.currentUser.role === 'admin'
   }
 
   public getFullName(): string {

@@ -1,5 +1,5 @@
-import { IQuiz } from "./quiz.model";
-import StudentQuiz from "./student-quiz.model";
+import { IQuiz } from './quiz.model';
+import StudentQuiz from './student-quiz.model';
 
 export class QuizResult {
     correctedAnswers: CorrectedAnswer[] = new Array();

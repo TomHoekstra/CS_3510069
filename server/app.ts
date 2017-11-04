@@ -58,11 +58,11 @@ class App {
         this.express.use('/api', nocache, router);
 
         // // --- ROUTES ---
-        router.use("/auth", new AuthenticationRouter().router);
-        router.use("/quiz", new QuizRouter().router);
-        router.use("/transaction", new TransactionRouter().router);
-        router.use("/live-answer", new LiveAnswerRouter().router);
-        router.use("/student", new StudentRouter().router);
+        router.use('/auth', new AuthenticationRouter().router);
+        router.use('/quiz', new QuizRouter().router);
+        router.use('/transaction', new TransactionRouter().router);
+        router.use('/live-answer', new LiveAnswerRouter().router);
+        router.use('/student', new StudentRouter().router);
     }
 }
 

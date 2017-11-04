@@ -30,7 +30,7 @@ export class QuizMakerComponent {
 
   searchQuiz() {
     if (!this.quizId || this.quizId === '') {
-      this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: "Atleast fill something in!" });
+      this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: 'Atleast fill something in!' });
     }
     else {
       this.quizService.getStudentQuizByQuizCode(this.quizId).subscribe((result) => {
@@ -59,7 +59,7 @@ export class QuizMakerComponent {
 
     this.transactionService.start(this.sessionId, this.quizId).subscribe((result) => {
       if (result.msg) {
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log hasn't started. Warn the teacher." });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Transaction log hasn't started. Warn the teacher.` });
       }
     });
   }
@@ -69,7 +69,7 @@ export class QuizMakerComponent {
       let questionId = this.quiz.questions[this.selectedQuestion].id;
       this.transactionService.dodge(this.sessionId, this.quizId, this.questionDuration, questionId).subscribe((result) => {
         if (result.msg) {
-          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log not working" });
+          this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Transaction log not working` });
         }
       });
     }
@@ -93,7 +93,7 @@ export class QuizMakerComponent {
 
   submitAnswer() {
     if (this.selectedAnswer === null) {
-      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Select an answer before submitting" });
+      this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Select an answer before submitting` });
       return;
     }
 
@@ -107,13 +107,13 @@ export class QuizMakerComponent {
 
     this.liveAnswerService.updateOrCreateAnswer(this.quizId, questionId, this.selectedAnswer).subscribe((result) => {
       if (result.msg) {
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Selected answer hasn't been submitted" });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Selected answer hasn't been submitted` });
       }
     });
 
     this.transactionService.response(this.sessionId, this.quizId, this.questionDuration, questionId, this.selectedAnswer).subscribe((result) => {
       if (result.msg) {
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log not working" });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Transaction log not working' });
       }
     });
 
@@ -148,7 +148,7 @@ export class QuizMakerComponent {
         this.quizResult = result.model;
         this.transactionService.finish(this.sessionId, this.quizId, this.quizDuration).subscribe((result) => {
           if (result.msg) {
-            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log not working" });
+            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Transaction log not working' });
           }
         });
       });

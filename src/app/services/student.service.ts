@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import ServiceResult from "../../../server/models/service-result.model";
+import { Injectable } from '@angular/core';
+import ServiceResult from '../../../server/models/service-result.model';
 import { Http, Response } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { IStudent } from "../../../server/models/student.model";
+import { IStudent } from '../../../server/models/student.model';
 
 @Injectable()
 export class StudentService {

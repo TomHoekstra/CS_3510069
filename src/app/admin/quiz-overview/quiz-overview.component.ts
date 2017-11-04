@@ -33,7 +33,7 @@ export class QuizOverviewComponent implements OnInit {
       accept: () => {
         this.liveAnswerService.resetQuiz(quiz.quizCode).subscribe((result) => {
           if (result.msg) {
-            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Quiz couldn't be reset" });
+            this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Quiz couldn't be reset` });
           }
           else {
             this.messageService.add({ severity: 'success', summary: 'Confirmation', detail: `All live answers for ${quiz.quizCode}-quiz have been reset` });

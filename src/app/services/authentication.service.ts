@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import ServiceResult from "../../../server/models/service-result.model";
+import { Injectable } from '@angular/core';
+import ServiceResult from '../../../server/models/service-result.model';
 import { Http, Response } from '@angular/http';
-import { IUserData } from "../../../server/models/user-data.model";
-import { Observable } from "rxjs/Observable";
+import { IUserData } from '../../../server/models/user-data.model';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 

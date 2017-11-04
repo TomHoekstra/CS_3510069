@@ -1,4 +1,4 @@
-import { IQuiz,  IQuestion, IAnswer } from "../../../server/models/quiz.model";
+import { IQuiz,  IQuestion, IAnswer } from '../../../server/models/quiz.model';
 
 export class Quiz implements IQuiz {
     title: string;
@@ -6,7 +6,7 @@ export class Quiz implements IQuiz {
     quizCode: string;
 
     constructor() {
-        this.title = "New Quiz"
+        this.title = 'New Quiz'
     }
 }
 
@@ -15,12 +15,12 @@ export class Question {
     answers: IAnswer[] = new Array();
 
     constructor() {
-        this.question = "New Question!"
+        this.question = 'New Question!'
 
-        this.answers.push(new Answer("Answer 1", true));
-        this.answers.push(new Answer("Answer 2", false));
-        this.answers.push(new Answer("Answer 3", false));
-        this.answers.push(new Answer("Answer 4", false));
+        this.answers.push(new Answer('Answer 1', true));
+        this.answers.push(new Answer('Answer 2', false));
+        this.answers.push(new Answer('Answer 3', false));
+        this.answers.push(new Answer('Answer 4', false));
     }
 }
 

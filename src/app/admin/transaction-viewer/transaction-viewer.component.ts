@@ -15,9 +15,9 @@ export class TransactionViewerComponent implements OnInit {
 
   public filters = {
     questionFilter : null,
-    studentFilter :  "",
-    eventFilter : "",
-    sessionIdFilter : ""
+    studentFilter :  '',
+    eventFilter : '',
+    sessionIdFilter : ''
   }
   
   constructor(private transactionService: TransactionService, private messageService: MessageService) { }

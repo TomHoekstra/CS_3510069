@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Observable, AsyncSubject } from "rxjs/Rx";
+import { Observable, AsyncSubject } from 'rxjs/Rx';
 import RouterUtils from '../utils/router.utils';
 import Quiz, { IMongooseQuiz } from '../models/quiz.model';
 import Auth from '../middleware/auth';
@@ -17,11 +17,11 @@ export class QuizRouter {
 
     init() {
         this.router.post('/create', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.createQuiz(request, response, next));
-        this.router.put("/update/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
-        this.router.delete("/delete/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
-        this.router.get("/student/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudentsByQuizCode(request, response, next));
-        this.router.get("/live/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getLiveQuizByQuizCode(request, response, next));
-        this.router.post("/check/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.checkQuizAnswers(request, response, next));
+        this.router.put('/update/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
+        this.router.delete('/delete/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
+        this.router.get('/student/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudentsByQuizCode(request, response, next));
+        this.router.get('/live/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getLiveQuizByQuizCode(request, response, next));
+        this.router.post('/check/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.checkQuizAnswers(request, response, next));
         this.router.get('/', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllQuizzes(request, response, next));
         this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizById(request, response, next));
     }
@@ -100,7 +100,6 @@ export class QuizRouter {
             if (err)
                 RouterUtils.handleResponse(res, err, null)
 
-            console.log("Found the quiz");
             let quizResult = new QuizResult(quiz, studentQuiz)
             RouterUtils.handleResponse(res, err, quizResult);
         });

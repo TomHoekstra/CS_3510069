@@ -15,13 +15,13 @@ export class MongooseConnection {
             });
         };
 
-        mongoose.connection.on("connected", (ref) => {
+        mongoose.connection.on('connected', (ref) => {
 
             winston.info(`Successfully connected to local database on startup `);
         });
 
         // If the connection throws an error
-        mongoose.connection.on("error", (err) => {
+        mongoose.connection.on('error', (err) => {
 
             winston.error(`Failed to connect to local database on startup `, err);
         });
@@ -38,7 +38,7 @@ export class MongooseConnection {
         // Connect to our MongoDB database using the MongoDB
         // connection URI from our predefined environment variable
         var options ={
-            "useMongoClient": true
+            'useMongoClient': true
         };
 
         mongoose.connect(process.env.MONGODB_URI, (error) => {

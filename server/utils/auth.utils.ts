@@ -20,7 +20,7 @@ export default class AuthUtils {
     }
 
     public static setAccessCookie(res: express.Response, token: string) {
-        res.cookie("access_token", token, { secure: false, httpOnly: true, signed: true, expires: this.generateEndOfDay() }); // zet secure op true bij ssl
+        res.cookie('access_token', token, { secure: false, httpOnly: true, signed: true, expires: this.generateEndOfDay() }); // zet secure op true bij ssl
     }
 
     private static generateEndOfDay() {

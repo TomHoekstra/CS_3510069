@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Observable, AsyncSubject } from "rxjs/Rx";
+import { Observable, AsyncSubject } from 'rxjs/Rx';
 import RouterUtils from '../utils/router.utils';
 import Quiz, { IMongooseQuiz } from '../models/quiz.model';
 import Auth from '../middleware/auth';
@@ -28,7 +28,7 @@ export class LiveAnswerRouter {
         let quizId = req.params.id;
 
         LiveAnswer.remove({
-            "quizId": quizId
+            'quizId': quizId
         }, (err, liveAnswers: IMongooseLiveAnswer[]) => {
             RouterUtils.handleResponse(res, err, liveAnswers);
         });
@@ -39,8 +39,8 @@ export class LiveAnswerRouter {
 
         LiveAnswer.find({
             $and: [
-                { "questionId": req.body.questionId },
-                { "quizId": req.body.quizId }
+                { 'questionId': req.body.questionId },
+                { 'quizId': req.body.quizId }
             ]
         }, (err, liveAnswers: IMongooseLiveAnswer[]) => {
             RouterUtils.handleResponse(res, err, liveAnswers);
@@ -50,17 +50,15 @@ export class LiveAnswerRouter {
     private updateOrCreateAnswer(req: express.Request, res: express.Response, next: express.NextFunction) {
         let answer = req.body;
 
-        let token = req.signedCookies["access_token"];
+        let token = req.signedCookies['access_token'];
         let user = AuthUtils.decodeAccesToken(token).user;
 
         LiveAnswer.update({
             $and: [
-                { "questionId": answer.questionId },
-                { "studentId": user.studentId }
+                { 'questionId': answer.questionId },
+                { 'studentId': user.studentId }
             ]
         }, answer, { upsert: true }, (err, liveAnswer: IMongooseLiveAnswer) => {
-            console.log("HOI");
-            console.log(liveAnswer);
             RouterUtils.handleResponse(res, err, liveAnswer);
         });
     }

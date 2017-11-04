@@ -22,7 +22,6 @@ export class StudentComponent implements OnInit {
     this.studentService.getAllStudents().subscribe((result: ServiceResult<IStudent[]>) => {
       if (result.success) {
         this.students = result.model;
-        console.log(this.students);
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
       }
@@ -32,7 +31,7 @@ export class StudentComponent implements OnInit {
   addStudents({ value, valid }: { value, valid: boolean }) {
     if (valid) {
       value.studentsField.split(',').forEach(el => {
-        this.students.push({ "studentId": el.trim() })
+        this.students.push({ 'studentId': el.trim() })
       });
     }
   }
@@ -49,7 +48,7 @@ export class StudentComponent implements OnInit {
   saveStudents() {
     this.studentService.updateOrCreateStudents(this.students).subscribe((result: ServiceResult<IStudent[]>) => {
       if (!result.success) {
-        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Couldn't save all the students" });
+        this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Couldn't save all the students` });
       }
     });
   }

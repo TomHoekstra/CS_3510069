@@ -1,4 +1,4 @@
-import { IQuestion, IQuiz, IAnswer } from "./quiz.model";
+import { IQuestion, IQuiz, IAnswer } from './quiz.model';
 
 export default class StudentQuiz {
     title: string;

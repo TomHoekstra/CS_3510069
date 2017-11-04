@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { Observable, AsyncSubject } from "rxjs/Rx";
+import { Observable, AsyncSubject } from 'rxjs/Rx';
 import RouterUtils from '../utils/router.utils';
 import User, { IMongooseUser } from '../models/user.model';
 import AuthUtils from '../utils/auth.utils';
@@ -18,8 +18,8 @@ export class AuthenticationRouter {
     init() {
         // Register listeners
         this.router.post('/register', (request: express.Request, response: express.Response, next: express.NextFunction) => this.register(request, response, next));
-        this.router.post("/signin", (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
-        this.router.post("/signout", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
+        this.router.post('/signin', (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
+        this.router.post('/signout', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
         this.router.get('/userdata', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getUserDataFromAccessToken(request, response, next));
     }
 
@@ -27,15 +27,15 @@ export class AuthenticationRouter {
     private register(req: express.Request, res: express.Response, next: express.NextFunction) {
         let newUser = req.body;
 
-        Student.findOne({ "studentId": newUser.studentId }).exec((err, student: IMongooseStudent) => {
+        Student.findOne({ 'studentId': newUser.studentId }).exec((err, student: IMongooseStudent) => {
             if (student === null)
-                RouterUtils.handleResponse(res, "You are not registered for this course", student);
+                RouterUtils.handleResponse(res, 'You are not registered for this course', student);
             else {
                 // Model.find `$or` Mongoose condition, Check if studentId or Email is in use
                 User.findOne({
                     $or: [
-                        { "studentId": newUser.studentId },
-                        { "email": newUser.email }
+                        { 'studentId': newUser.studentId },
+                        { 'email': newUser.email }
                     ]
                 }, (err, user) => {
                     // If there are any errors, return the error
@@ -44,9 +44,9 @@ export class AuthenticationRouter {
 
                     // If a user exists with either of those ...
                     if (user) {
-                        RouterUtils.handleResponse(res, "That student id/email is already taken.", user);
+                        RouterUtils.handleResponse(res, 'That student id/email is already taken.', user);
                     } else {
-                        newUser.role = "student";
+                        newUser.role = 'student';
                         // Save the new user
                         User.create(newUser, (err, createdUser: IMongooseUser) => {
                             RouterUtils.handleResponse(res, err, createdUser);
@@ -66,7 +66,7 @@ export class AuthenticationRouter {
             User.findOne({
                 // Model.find `$or` Mongoose condition
                 $or: [
-                    { "studentId": studentId },
+                    { 'studentId': studentId },
                 ]
             }, (err, user) => {
 
@@ -78,7 +78,7 @@ export class AuthenticationRouter {
 
                 // If no user is found, return a message
                 if (!user || user.password != password) {
-                    RouterUtils.handleResponse(res, "Login failed", user);
+                    RouterUtils.handleResponse(res, 'Login failed', user);
                 }
                 else {
 
@@ -97,11 +97,11 @@ export class AuthenticationRouter {
 
     //SignOut user by clearing cookie
     private signOut(req: express.Request, res: express.Response, next: express.NextFunction) {
-        res.clearCookie("access_token");
+        res.clearCookie('access_token');
 
         let userData: IUserData = {
             signedIn: false,
-            role: "NotInterested"
+            role: 'NotInterested'
         }
 
         RouterUtils.handleResponse(res, null, userData);
@@ -109,7 +109,7 @@ export class AuthenticationRouter {
 
     //Getting the user data from the acces_token
     private getUserDataFromAccessToken(req: express.Request, res: express.Response, next: express.NextFunction) {
-        let token = req.signedCookies["access_token"];
+        let token = req.signedCookies['access_token'];
 
         if (token) {
             let user = AuthUtils.decodeAccesToken(token).user;
@@ -125,11 +125,11 @@ export class AuthenticationRouter {
                 RouterUtils.handleResponse(res, null, userData);
             }
             else {
-                RouterUtils.handleResponse(res, null, "Not authenticated 1");
+                RouterUtils.handleResponse(res, null, 'Not authenticated 1');
             }
         }
         else {
-            RouterUtils.handleResponse(res, null, "Not authenticated 2");
+            RouterUtils.handleResponse(res, null, 'Not authenticated 2');
         }
     }
 }
