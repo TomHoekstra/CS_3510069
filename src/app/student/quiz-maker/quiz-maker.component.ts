@@ -24,6 +24,8 @@ export class QuizMakerComponent {
   private quizDuration: number;
   private questionDuration: number;
 
+  private questionTimer: any;
+
   constructor(private messageService: MessageService, private quizService: QuizService, private guidService: GuidService, private transactionService: TransactionService, private liveAnswerService: LiveAnswerService) { }
 
   searchQuiz() {
@@ -86,7 +88,7 @@ export class QuizMakerComponent {
   setQuestionTimer() {
     this.questionDuration = 0;
     let questionTimer = Observable.timer(0, 1000);
-    questionTimer.subscribe(t => this.questionDuration = t);
+    this.questionTimer = questionTimer.subscribe(t => this.questionDuration = t);
   }
 
   submitAnswer() {
@@ -114,6 +116,10 @@ export class QuizMakerComponent {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: "Transaction log not working" });
       }
     });
+
+    this.questionTimer.unsubscribe();
+    this.setQuestionTimer();
+
 
     if (this.selectedQuestion < this.quiz.questions.length - 1) {
       this.selectedQuestion++;
@@ -171,8 +177,7 @@ export class QuizMakerComponent {
     return result;
   }
 
-  checkIfWrong(index: number, answer: string)
-  {
+  checkIfWrong(index: number, answer: string) {
     return index === this.selectedAnswer && answer !== this.quizResult.correctedAnswers[this.selectedQuestion].correctAnswer
   }
 
