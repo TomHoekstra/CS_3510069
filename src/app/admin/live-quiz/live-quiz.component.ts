@@ -16,6 +16,7 @@ export class LiveQuizComponent {
   public quiz: any;
   public results: any;
   public selectedQuestion = 0;
+  public showAnswers = false;
 
   bgcolor: string[] = [
     '#0066ff',
@@ -23,8 +24,6 @@ export class LiveQuizComponent {
     '#b38600',
     '#990099'
   ]
-
-
 
   getAnswerCount(index: number) {
     if (this.results) {
@@ -46,12 +45,13 @@ export class LiveQuizComponent {
       this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: "Atleast fill something in!" });
     }
     else {
-      this.quizService.getStudentQuizById(this.quizId).subscribe((result) => {
+      this.quizService.getQuizByQuizCode(this.quizId).subscribe((result) => {
         if (result.success) {
           if (!result.model) {
             this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: `No quiz found!` });
           }
           else {
+            console.log(result.model);
             this.quiz = result.model;
             this.startTimer();
           }
@@ -69,7 +69,7 @@ export class LiveQuizComponent {
   }
 
   getAnswers() {
-    let questionId = this.quiz.questions[this.selectedQuestion].id;
+    let questionId = this.quiz.questions[this.selectedQuestion]._id;
 
     this.liveAnswerService.getAnswersByQuestion(questionId, this.quizId).subscribe((result) => {
       if (result.model) {
@@ -79,6 +79,10 @@ export class LiveQuizComponent {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: result.msg });
       }
     });
+  }
+
+  showAnswerToggle(){
+    this.showAnswers = !this.showAnswers;
   }
 
   click(index: number) {

@@ -1,30 +1,73 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2>Transaction overview</h2>
             </div>
             <div class="panel-body">
-              {{search for quizId}}
-              
+                <form ngNativeValidate #f="ngForm" (ngSubmit)="getTransactions(f)">
+                    <div class="form-group row">
+                        <div class="col-md-11">
+                            <input #quizcode="ngModel" placeholder="Type a quizcode and get the transactions" [(ngModel)]="quizCode" required name="quizCode"
+                                type="text" class="form-control" id="quizCode" />
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-primary" type="submit">Get Transactions</button>
+                        </div>
+                    </div>
+                </form>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="col-md-10">Quiz title</th>
-                            <th class="col-md-1">Questions</th>
-                            <th class="col-md-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let quiz of quizzes">
-                            <td class="col-md-10">{{quiz.title}}</td>
-                            <td class="col-md-1">{{quiz.questions.length}}</td>
-                            <td class="col-md-1"><button class="btn btn-primary right" (click)="edit(quiz)" id="edit" type="button">Edit</button></td>
-                        </tr>                   
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-md-3">
+                        <input placeholder="Type student Id" [(ngModel)]="filters.studentFilter" type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <select [(ngModel)]="filters.eventFilter" class="form-control">
+                            <option value="">No filter</option>
+                            <option value="Start">Start</option>
+                            <option value="Response">Response</option>
+                            <option value="Dodge">Dodge</option>
+                            <option value="Finish">Finish</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input placeholder="Select a question number" [(ngModel)]="filters.questionFilter" type="number" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                            <input placeholder="Type a session Id" [(ngModel)]="filters.sessionIdFilter" type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <table *ngIf="transactions" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2">Timestamp</th>
+                                <th class="col-md-1">Quiz</th>
+                                <th class="col-md-1">Student</th>
+                                <th class="col-md-1">Event</th>
+                                <th class="col-md-1">Question</th>
+                                <th class="col-md-1">Seconds</th>
+                                <th class="col-md-1">Answer</th>
+                                <th class="col-md-1">Correct answer</th>
+                                <th class="col-md-3">Session Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of transactions | transactionfilter:filters">
+                                <td class="col-md-2">{{transaction.timestamp | date:'dd-MM-yyyy HH:mm'}}</td>
+                                <td class="col-md-1">{{transaction.quizId}}</td>
+                                <td class="col-md-2">{{transaction.userId}}</td>
+                                <td class="col-md-1">{{transaction.event}}</td>
+                                <td class="col-md-1">{{transaction.questionId}}</td>
+                                <td class="col-md-1">{{transaction.timespan}}</td>
+                                <td class="col-md-1">{{transaction.answer}}</td>
+                                <td class="col-md-1">{{transaction.result}}</td>
+                                <td class="col-md-3">{{transaction.sessionId}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div> -->
+</div>

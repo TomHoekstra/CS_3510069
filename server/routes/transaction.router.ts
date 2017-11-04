@@ -20,6 +20,7 @@ export class TransactionRouter {
         this.router.post('/dodge', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.dodgeTransaction(request, response, next));
         this.router.post('/response', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.responseTransaction(request, response, next));
         this.router.post('/finish', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.finishTransaction(request, response, next));
+        this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllTransactionsByQuizCode(request, response, next));
     }
 
     private startTransaction(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -82,7 +83,7 @@ export class TransactionRouter {
 
             let question = quiz.questions.filter(q => q._id == transaction.questionId)[0];
             let answer = question.answers.indexOf(question.answers.filter(a => a.correct === true)[0]);
-            transaction.result =  String.fromCharCode(97 + answer).toUpperCase();
+            transaction.result = String.fromCharCode(97 + answer).toUpperCase();
 
             Transaction.create(transaction, (err, transaction: IMongooseTransaction) => {
                 RouterUtils.handleResponse(res, err, transaction);
@@ -106,6 +107,14 @@ export class TransactionRouter {
 
         Transaction.create(transaction, (err, transaction: IMongooseTransaction) => {
             RouterUtils.handleResponse(res, err, transaction);
+        });
+    }
+
+    getAllTransactionsByQuizCode(req: express.Request, res: express.Response, next: express.NextFunction) {
+        let quizCode = req.params.id;
+        
+        Transaction.find({'quizId' : quizCode}).exec((err, transactions: [IMongooseTransaction]) => {
+            RouterUtils.handleResponse(res, err, transactions);
         });
     }
 }

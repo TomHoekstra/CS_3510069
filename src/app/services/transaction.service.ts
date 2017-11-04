@@ -29,4 +29,9 @@ export class TransactionService {
     return this.http.post('api/transaction/finish/', { "guid" : guid, "quizId" : quizId, "duration" : duration})
       .map((res: Response) => res.json());
   } 
+
+  getAllQuizcodesByQuizCode(quizCode): Observable<ServiceResult<ITransaction[]>> {
+    return this.http.get(`api/transaction/${quizCode}`)
+      .map((res: Response) => res.json());
+  } 
 }

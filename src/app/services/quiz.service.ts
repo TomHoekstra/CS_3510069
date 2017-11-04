@@ -23,8 +23,13 @@ export class QuizService {
       .map((res: Response) => res.json());
   }
 
-  getStudentQuizById(id: string): Observable<ServiceResult<StudentQuiz>> {
-    return this.http.get(`api/quiz/student/${id}`, )
+  getStudentQuizByQuizCode(quizCode: string): Observable<ServiceResult<StudentQuiz>> {
+    return this.http.get(`api/quiz/student/${quizCode}`, )
+      .map((res: Response) => res.json());
+  }
+
+  getQuizByQuizCode(quizCode: string): Observable<ServiceResult<StudentQuiz>> {
+    return this.http.get(`api/quiz/live/${quizCode}`, )
       .map((res: Response) => res.json());
   }
 

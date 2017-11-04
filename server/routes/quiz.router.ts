@@ -19,10 +19,11 @@ export class QuizRouter {
         this.router.post('/create', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.createQuiz(request, response, next));
         this.router.put("/update/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
         this.router.delete("/delete/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
-        this.router.get("/student/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudents(request, response, next));
+        this.router.get("/student/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudentsByQuizCode(request, response, next));
+        this.router.get("/live/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getLiveQuizByQuizCode(request, response, next));
         this.router.post("/check/:id", Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.checkQuizAnswers(request, response, next));
         this.router.get('/', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllQuizzes(request, response, next));
-        this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuiz(request, response, next));
+        this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizById(request, response, next));
     }
 
     private createQuiz(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -42,7 +43,7 @@ export class QuizRouter {
         });
     }
 
-    public getQuiz(req: express.Request, res: express.Response, next: express.NextFunction) {
+    public getQuizById(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
         Quiz.findById(id).exec((err, quiz: IMongooseQuiz) => {
             RouterUtils.handleResponse(res, err, quiz);
@@ -50,7 +51,6 @@ export class QuizRouter {
     }
 
     public getAllQuizzes(req: express.Request, res: express.Response, next: express.NextFunction) {
-
         Quiz.find().exec((err, quizzes: [IMongooseQuiz]) => {
             RouterUtils.handleResponse(res, err, quizzes);
         });
@@ -68,23 +68,35 @@ export class QuizRouter {
         })
     }
 
-    public getQuizForStudents(req: express.Request, res: express.Response, next: express.NextFunction) {
+    public getQuizForStudentsByQuizCode(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
-        
-        Quiz.findOne({'quizCode': id}).exec((err, quiz: IMongooseQuiz) => {
+
+        Quiz.findOne({ 'quizCode': id }).exec((err, quiz: IMongooseQuiz) => {
             if (err)
                 RouterUtils.handleResponse(res, err, null)
 
-            let studentQuiz = new StudentQuiz(quiz);
+            if (quiz === null) {
+                RouterUtils.handleResponse(res, err, null);
+            }
+            else {
+                let studentQuiz = new StudentQuiz(quiz);
+                RouterUtils.handleResponse(res, err, studentQuiz);
+            }
+        });
+    }
 
-            RouterUtils.handleResponse(res, err, studentQuiz);
+    public getLiveQuizByQuizCode(req: express.Request, res: express.Response, next: express.NextFunction) {
+        const id = req.params.id;
+
+        Quiz.findOne({ 'quizCode': id }).exec((err, quiz: IMongooseQuiz) => {
+            RouterUtils.handleResponse(res, err, quiz);
         });
     }
 
     public checkQuizAnswers(req: express.Request, res: express.Response, next: express.NextFunction) {
         const id = req.params.id;
         let studentQuiz: StudentQuiz = req.body;
-        Quiz.findOne({'quizCode': id}).exec((err, quiz: IMongooseQuiz) => {
+        Quiz.findOne({ 'quizCode': id }).exec((err, quiz: IMongooseQuiz) => {
             if (err)
                 RouterUtils.handleResponse(res, err, null)
 

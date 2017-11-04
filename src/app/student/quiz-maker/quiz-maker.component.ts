@@ -31,7 +31,7 @@ export class QuizMakerComponent {
       this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: "Atleast fill something in!" });
     }
     else {
-      this.quizService.getStudentQuizById(this.quizId).subscribe((result) => {
+      this.quizService.getStudentQuizByQuizCode(this.quizId).subscribe((result) => {
         if (result.success) {
           if (!result.model) {
             this.messageService.add({ severity: 'error', summary: 'Invalid QuizID', detail: `No quiz found!` });
