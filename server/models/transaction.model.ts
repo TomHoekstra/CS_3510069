@@ -1,3 +1,4 @@
+//Model for storing transactions regarding the quizzes
 import * as mongoose from 'mongoose';
 
 export let Schema = mongoose.Schema;

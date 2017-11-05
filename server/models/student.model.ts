@@ -1,3 +1,4 @@
+//Model for managing the registered students for the course
 import * as mongoose from 'mongoose';
 
 export let Schema = mongoose.Schema;

@@ -1,3 +1,4 @@
+//Model for the live answers feature of the quiz.
 import * as mongoose from 'mongoose';
 
 export let Schema = mongoose.Schema;
@@ -28,7 +29,6 @@ export const LiveAnswerSchema = new Schema({
         required: true
     }
 });
-
 
 export interface IMongooseLiveAnswer extends mongoose.Document, ILiveAnswer { }
 

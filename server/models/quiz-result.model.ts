@@ -1,3 +1,4 @@
+//Model for the student their results, calculates the percentage of correct answers
 import { IQuiz } from './quiz.model';
 import StudentQuiz from './student-quiz.model';
 

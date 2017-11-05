@@ -43,7 +43,7 @@ class App {
     }
 
     // Configure Express middleware.
-    private middleware(): void {       
+    private middleware(): void {
         this.express.use(cookieParser(process.env.COOKIE_SECRET));
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
@@ -63,6 +63,12 @@ class App {
         router.use('/transaction', new TransactionRouter().router);
         router.use('/live-answer', new LiveAnswerRouter().router);
         router.use('/student', new StudentRouter().router);
+
+        this.express.use(function (err, req, res, next) {
+            if (err.code === 'permission_denied') {
+                res.status(401).send('insufficient permissions');
+            }
+        });
     }
 }
 

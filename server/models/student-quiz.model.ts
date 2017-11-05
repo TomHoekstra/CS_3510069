@@ -1,3 +1,4 @@
+//Model for the quiz the students receives. Has only the questions and answers, not the information which answer is right
 import { IQuestion, IQuiz, IAnswer } from './quiz.model';
 
 export default class StudentQuiz {

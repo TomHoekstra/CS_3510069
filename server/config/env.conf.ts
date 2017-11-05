@@ -1,3 +1,4 @@
+//Setting the environments variables for the application
 var config = require('./config.json');
 import * as winston from 'winston';
 import { LogConfig } from './log-config';

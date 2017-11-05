@@ -1,5 +1,6 @@
 import * as winston from 'winston';
 
+//Starting and managing the Mongoose Connection
 export class MongooseConnection {
 
     constructor(mongoose){

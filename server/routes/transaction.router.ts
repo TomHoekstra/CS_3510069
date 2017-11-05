@@ -6,6 +6,8 @@ import Transaction, { IMongooseTransaction, ITransaction } from '../models/trans
 import AuthUtils from '../utils/auth.utils';
 import Quiz, { IMongooseQuiz } from '../models/quiz.model';
 
+const guard = require("express-jwt-permissions")();
+
 
 export class TransactionRouter {
     public router: express.Router;
@@ -16,11 +18,11 @@ export class TransactionRouter {
     }
 
     init() {
-        this.router.post('/start', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.startTransaction(request, response, next));
-        this.router.post('/dodge', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.dodgeTransaction(request, response, next));
-        this.router.post('/response', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.responseTransaction(request, response, next));
-        this.router.post('/finish', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.finishTransaction(request, response, next));
-        this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllTransactionsByQuizCode(request, response, next));
+        this.router.post('/start', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.startTransaction(request, response, next));
+        this.router.post('/dodge', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.dodgeTransaction(request, response, next));
+        this.router.post('/response', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.responseTransaction(request, response, next));
+        this.router.post('/finish', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.finishTransaction(request, response, next));
+        this.router.get('/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllTransactionsByQuizCode(request, response, next));
     }
 
     private startTransaction(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -112,8 +114,8 @@ export class TransactionRouter {
 
     getAllTransactionsByQuizCode(req: express.Request, res: express.Response, next: express.NextFunction) {
         let quizCode = req.params.id;
-        
-        Transaction.find({'quizId' : quizCode}).exec((err, transactions: [IMongooseTransaction]) => {
+
+        Transaction.find({ 'quizId': quizCode }).exec((err, transactions: [IMongooseTransaction]) => {
             RouterUtils.handleResponse(res, err, transactions);
         });
     }

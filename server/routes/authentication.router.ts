@@ -7,6 +7,8 @@ import { IUserData } from '../models/user-data.model';
 import Auth from '../middleware/auth';
 import Student, { IMongooseStudent } from '../models/student.model';
 
+const guard = require("express-jwt-permissions")();
+
 export class AuthenticationRouter {
     public router: express.Router;
 
@@ -19,7 +21,7 @@ export class AuthenticationRouter {
         // Register listeners
         this.router.post('/register', (request: express.Request, response: express.Response, next: express.NextFunction) => this.register(request, response, next));
         this.router.post('/signin', (request: express.Request, response: express.Response, next: express.NextFunction) => this.signIn(request, response, next));
-        this.router.post('/signout', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
+        this.router.post('/signout', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.signOut(request, response, next));
         this.router.get('/userdata', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getUserDataFromAccessToken(request, response, next));
     }
 

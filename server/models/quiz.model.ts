@@ -1,3 +1,4 @@
+//Model for the quiz, it has an autoIncrement feature. This way the quiz and questions have logical ID's instead of the basic mongoDB ID's
 import * as mongoose from 'mongoose';
 import * as autoIncrement from 'mongoose-auto-increment';
 

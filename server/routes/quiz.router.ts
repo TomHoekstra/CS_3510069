@@ -7,6 +7,8 @@ import { isNullOrUndefined } from 'util';
 import StudentQuiz from '../models/student-quiz.model';
 import { QuizResult } from '../models/quiz-result.model';
 
+const guard = require("express-jwt-permissions")();
+
 export class QuizRouter {
     public router: express.Router;
 
@@ -16,14 +18,14 @@ export class QuizRouter {
     }
 
     init() {
-        this.router.post('/create', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.createQuiz(request, response, next));
-        this.router.put('/update/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
-        this.router.delete('/delete/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
-        this.router.get('/student/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudentsByQuizCode(request, response, next));
-        this.router.get('/live/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getLiveQuizByQuizCode(request, response, next));
-        this.router.post('/check/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.checkQuizAnswers(request, response, next));
-        this.router.get('/', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllQuizzes(request, response, next));
-        this.router.get('/:id', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizById(request, response, next));
+        this.router.post('/create', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.createQuiz(request, response, next));
+        this.router.put('/update/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateQuiz(request, response, next));
+        this.router.delete('/delete/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuiz(request, response, next));
+        this.router.get('/student/:id', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizForStudentsByQuizCode(request, response, next));
+        this.router.get('/live/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getLiveQuizByQuizCode(request, response, next));
+        this.router.post('/check/:id', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.checkQuizAnswers(request, response, next));
+        this.router.get('/', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getAllQuizzes(request, response, next));
+        this.router.get('/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuizById(request, response, next));
     }
 
     private createQuiz(req: express.Request, res: express.Response, next: express.NextFunction) {

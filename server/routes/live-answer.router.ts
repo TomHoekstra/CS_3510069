@@ -9,6 +9,8 @@ import { QuizResult } from '../models/quiz-result.model';
 import LiveAnswer, { IMongooseLiveAnswer } from '../models/live-answer.model';
 import AuthUtils from '../utils/auth.utils';
 
+const guard = require("express-jwt-permissions")();
+
 export class LiveAnswerRouter {
 
     public router: express.Router;
@@ -19,9 +21,9 @@ export class LiveAnswerRouter {
     }
 
     init() {
-        this.router.post('/answer', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateOrCreateAnswer(request, response, next));
-        this.router.post('/results', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuestionResult(request, response, next));
-        this.router.delete('/results/:id', (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuizAnswers(request, response, next));
+        this.router.post('/answer', Auth.authenticate(), guard.check(['student']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateOrCreateAnswer(request, response, next));
+        this.router.post('/results', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getQuestionResult(request, response, next));
+        this.router.delete('/results/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuizAnswers(request, response, next));
     }
 
     private deleteQuizAnswers(req: express.Request, res: express.Response, next: express.NextFunction) {

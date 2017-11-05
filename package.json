@@ -29,6 +29,7 @@
     "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "express": "^4.15.4",
+    "express-jwt-permissions": "^1.0.0",
     "express-winston": "^2.4.0",
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",

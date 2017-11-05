@@ -8,7 +8,13 @@ var path = require('path');
 
 export default class AuthUtils {
     public static generateAccessToken(user: IUser) {
+        const permissions = ["student"];
+        if (user.role === "admin") {
+          permissions.push("admin");
+        }
+        
         return jwt.sign({
+            permissions: permissions,
             user: user,
             exp: this.generateEndOfDay().getTime()
         }, process.env.JWT_SECRET

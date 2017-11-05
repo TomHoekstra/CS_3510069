@@ -4,6 +4,8 @@ import RouterUtils from '../utils/router.utils';
 import Auth from '../middleware/auth';
 import Student, { IMongooseStudent } from '../models/student.model';
 
+const guard = require("express-jwt-permissions")();
+
 export class StudentRouter {
 
     public router: express.Router;
@@ -14,8 +16,8 @@ export class StudentRouter {
     }
 
     init() {
-        this.router.post('/update', Auth.authenticate(), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateOrCreateStudents(request, response, next));
-        this.router.get('/', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getStudentList(request, response, next));
+        this.router.post('/update', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.updateOrCreateStudents(request, response, next));
+        this.router.get('/', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.getStudentList(request, response, next));
     }
 
     private getStudentList(req: express.Request, res: express.Response, next: express.NextFunction) {

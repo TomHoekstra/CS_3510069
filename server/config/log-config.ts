@@ -1,8 +1,6 @@
 import * as winston from 'winston';
 
-/**
- * Class that adds transports to the default winston logger.
- */
+//Setting file logging for the application
 export class LogConfig {
     constructor(path: string) {
         winston.remove(winston.transports.Console);
@@ -26,6 +24,7 @@ export class LogConfig {
             colorize: false
         });
         
-        winston.remove(winston.transports.Console); // Comment me to enable console transport for logging
+        // Comment me to enable console transport for logging
+        winston.remove(winston.transports.Console); 
     }
 }
