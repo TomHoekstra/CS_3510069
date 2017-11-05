@@ -1,3 +1,4 @@
+// Client model for the quiz
 import { IQuiz,  IQuestion, IAnswer } from '../../../server/models/quiz.model';
 
 export class Quiz implements IQuiz {

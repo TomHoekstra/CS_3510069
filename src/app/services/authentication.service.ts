@@ -5,8 +5,6 @@ import { IUserData } from '../../../server/models/user-data.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-
-
 @Injectable()
 export class AuthenticationService {
 

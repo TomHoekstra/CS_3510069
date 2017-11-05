@@ -25,6 +25,6 @@ export class LogConfig {
         });
         
         // Comment me to enable console transport for logging
-        winston.remove(winston.transports.Console); 
+       winston.remove(winston.transports.Console); 
     }
 }

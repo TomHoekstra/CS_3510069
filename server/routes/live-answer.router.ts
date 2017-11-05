@@ -26,6 +26,7 @@ export class LiveAnswerRouter {
         this.router.delete('/results/:id', Auth.authenticate(), guard.check(['student', 'admin']), (request: express.Request, response: express.Response, next: express.NextFunction) => this.deleteQuizAnswers(request, response, next));
     }
 
+    // Deleting all the quiz answers for one quiz
     private deleteQuizAnswers(req: express.Request, res: express.Response, next: express.NextFunction) {
         let quizId = req.params.id;
 
@@ -36,6 +37,7 @@ export class LiveAnswerRouter {
         });
     }
 
+    // Getting the results for a question
     private getQuestionResult(req: express.Request, res: express.Response, next: express.NextFunction) {
         let questionId = req.body;
 
@@ -49,6 +51,7 @@ export class LiveAnswerRouter {
         });
     }
 
+    // Storing the answers students give
     private updateOrCreateAnswer(req: express.Request, res: express.Response, next: express.NextFunction) {
         let answer = req.body;
 

@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TransactionViewerComponent implements OnInit {
+export class TransactionViewerComponent {
   public quizCode: string;
   public transactions;
 
@@ -21,9 +21,6 @@ export class TransactionViewerComponent implements OnInit {
   }
   
   constructor(private transactionService: TransactionService, private messageService: MessageService) { }
-
-  ngOnInit() {
-  }
 
   getTransactions({ value, valid }: { value, valid: boolean }) {
     if (valid) {
@@ -37,5 +34,4 @@ export class TransactionViewerComponent implements OnInit {
       });
     }
   }
-
 }

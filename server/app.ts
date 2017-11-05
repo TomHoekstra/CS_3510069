@@ -16,10 +16,6 @@ import { TransactionRouter } from './routes/transaction.router';
 import { LiveAnswerRouter } from './routes/live-answer.router';
 import { StudentRouter } from './routes/student.router';
 
-
-
-
-
 // Creates and configures an ExpressJS web server.
 class App {
 

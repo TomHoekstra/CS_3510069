@@ -25,6 +25,9 @@ export class LiveQuizComponent {
     '#990099'
   ]
 
+  constructor(private messageService: MessageService, private quizService: QuizService, private liveAnswerService: LiveAnswerService) { }
+
+  // Count how many answers are given on an answer
   getAnswerCount(index: number) {
     if (this.results) {
       let count = 0;
@@ -37,8 +40,6 @@ export class LiveQuizComponent {
       return count;
     }
   }
-
-  constructor(private messageService: MessageService, private quizService: QuizService, private liveAnswerService: LiveAnswerService) { }
 
   searchQuiz() {
     if (!this.quizId || this.quizId === '') {
@@ -62,6 +63,7 @@ export class LiveQuizComponent {
     }
   }
 
+  // Timer for auto refresh
   startTimer() {
     let questionTimer = Observable.timer(0, 5000);
     questionTimer.subscribe(t => this.getAnswers());
@@ -88,6 +90,4 @@ export class LiveQuizComponent {
     this.selectedQuestion = index;
     this.getAnswers()
   }
-
-
 }

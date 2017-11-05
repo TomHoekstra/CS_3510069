@@ -41,14 +41,11 @@ export class QuizOverviewComponent implements OnInit {
         });
       }
     });
-
   }
 
   edit(quiz) {
     this.router.navigate(['quiz', 'creator', quiz._id]);
   }
-
-
 }
 
 

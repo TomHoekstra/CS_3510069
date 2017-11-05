@@ -2,17 +2,18 @@ import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import { IUser } from '../models/user.model';
 import { IUserData } from '../models/user-data.model';
+import * as bcrypt from "bcrypt-nodejs";
+
 var fs = require('fs');
 var path = require('path');
-
 
 export default class AuthUtils {
     public static generateAccessToken(user: IUser) {
         const permissions = ["student"];
         if (user.role === "admin") {
-          permissions.push("admin");
+            permissions.push("admin");
         }
-        
+
         return jwt.sign({
             permissions: permissions,
             user: user,
@@ -35,16 +36,23 @@ export default class AuthUtils {
         return d;
     }
 
-    public static getUserData(user: IUser) : IUserData
-    {
+    public static getUserData(user: IUser): IUserData {
         let userData: IUserData = {
-            studentId : user.studentId,
-            firstName : user.firstName,
-            lastName : user.lastName, 
-            signedIn : true,
+            studentId: user.studentId,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            signedIn: true,
             role: user.role
         };
 
-        return userData;       
+        return userData;
     }
+
+    public static generateHash(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    };
+
+    public static validPassword = function (password, passwordDb) {
+        return bcrypt.compareSync(password, passwordDb);
+    };
 }

@@ -4,7 +4,6 @@ import { Http, Response } from '@angular/http';
 import ServiceResult from '../../../server/models/service-result.model';
 import { Observable } from 'rxjs/Observable';
 
-
 @Injectable()
 export class TransactionService {
 

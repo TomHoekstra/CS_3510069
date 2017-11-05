@@ -10,6 +10,4 @@ import { AdminAuthGuard } from './admin-auth.guard';
   declarations: [],
   providers: [StudentAuthGuard, AdminAuthGuard]
 })
-export class GuardModule {
-
- }
+export class GuardModule {}

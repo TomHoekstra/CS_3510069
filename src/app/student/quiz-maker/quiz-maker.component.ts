@@ -92,35 +92,41 @@ export class QuizMakerComponent {
   }
 
   submitAnswer() {
+    // First check if answer is selected
     if (this.selectedAnswer === null) {
       this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Select an answer before submitting` });
       return;
     }
 
+    // Set the answer in the quiz model
     this.quiz.questions[this.selectedQuestion].answers.forEach(answer => {
       answer.selected = false;
     });
 
     this.quiz.questions[this.selectedQuestion].answers[this.selectedAnswer].selected = true;
 
+    // Save the questionId
     let questionId = this.quiz.questions[this.selectedQuestion].id;
 
+    // Update the live answer data
     this.liveAnswerService.updateOrCreateAnswer(this.quizId, questionId, this.selectedAnswer).subscribe((result) => {
       if (result.msg) {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: `Selected answer hasn't been submitted` });
       }
     });
 
+    // Set the transaction
     this.transactionService.response(this.sessionId, this.quizId, this.questionDuration, questionId, this.selectedAnswer).subscribe((result) => {
       if (result.msg) {
         this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'Transaction log not working' });
       }
     });
 
+    // Reset question timer
     this.questionTimer.unsubscribe();
     this.setQuestionTimer();
 
-
+    // Reset the selected question
     if (this.selectedQuestion < this.quiz.questions.length - 1) {
       this.selectedQuestion++;
     }
@@ -128,6 +134,7 @@ export class QuizMakerComponent {
       this.selectedQuestion = 0;
     }
 
+    //Set the selected answer
     this.setSelectedAnswer();
   }
 
@@ -158,6 +165,7 @@ export class QuizMakerComponent {
     }
   }
 
+  // Check if the quiz can be submitted
   checkIfAllQuestionsAreAnswered() {
     let result = true;
 

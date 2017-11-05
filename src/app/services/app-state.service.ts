@@ -25,6 +25,7 @@ export class AppStateService {
     }
   }
 
+  // Check if a user is signed in by getting the data from accestoken
   private checkIfAnyUserIsSignedIn() {
     this.authenticationService.getUserDataFromAccesToken().subscribe((result) => {
       if (result.success && result.model) {
@@ -33,8 +34,6 @@ export class AppStateService {
       else {
         this.currentUser = null;
       }
-    }, (error) => {
-      //Errorhandling
     });
   }
 
@@ -46,7 +45,7 @@ export class AppStateService {
     return this.currentUser.role === 'student' || this.roleIsAdmin;
   }
 
-  public roleIsAdmin(){
+  public roleIsAdmin() {
     return this.currentUser.role === 'admin'
   }
 

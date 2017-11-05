@@ -108,7 +108,6 @@ export class QuizCreatorComponent implements OnInit {
     this.router.navigate(['/quiz/overview']);
   }
 
-
   saveQuiz({ value, valid }: { value, valid: boolean }) {
     if (valid && this.quiz.questions.length > 0) {
       if (!this.quizId) {

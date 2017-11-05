@@ -1,3 +1,4 @@
+// Filter for the transactions
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

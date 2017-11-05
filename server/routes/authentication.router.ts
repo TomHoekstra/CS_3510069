@@ -25,65 +25,76 @@ export class AuthenticationRouter {
         this.router.get('/userdata', (request: express.Request, response: express.Response, next: express.NextFunction) => this.getUserDataFromAccessToken(request, response, next));
     }
 
-    //Registering a student
+    // Registering a student
     private register(req: express.Request, res: express.Response, next: express.NextFunction) {
         let newUser = req.body;
+        newUser.password = AuthUtils.generateHash(newUser.password);
 
-        Student.findOne({ 'studentId': newUser.studentId }).exec((err, student: IMongooseStudent) => {
-            if (student === null)
-                RouterUtils.handleResponse(res, 'You are not registered for this course', student);
-            else {
-                // Model.find `$or` Mongoose condition, Check if studentId or Email is in use
-                User.findOne({
-                    $or: [
-                        { 'studentId': newUser.studentId },
-                        { 'email': newUser.email }
-                    ]
-                }, (err, user) => {
-                    // If there are any errors, return the error
-                    if (err)
-                        RouterUtils.handleResponse(res, err, user);
-
-                    // If a user exists with either of those ...
-                    if (user) {
-                        RouterUtils.handleResponse(res, 'That student id/email is already taken.', user);
-                    } else {
-                        newUser.role = 'student';
-                        // Save the new user
-                        User.create(newUser, (err, createdUser: IMongooseUser) => {
-                            RouterUtils.handleResponse(res, err, createdUser);
-                        });
-                    };
-                });
+        //Check if first user, if first user it's the admin
+        User.find().limit(1).exec(function (searchError, results) {
+            const count = results.length;
+            if (count === 0) {
+                newUser.role = 'admin';
+            } else {
+                newUser.role = 'student';
             }
+
+            // Check if student is registered for this course
+            Student.findOne({ 'studentId': newUser.studentId }).exec((err, student: IMongooseStudent) => {
+                if (student === null && newUser.role === 'student')
+                    RouterUtils.handleResponse(res, 'You are not registered for this course', student);
+                else {
+                    // Check if studentId or email is in use
+                    User.findOne({
+                        $or: [
+                            { 'studentId': newUser.studentId },
+                            { 'email': newUser.email }
+                        ]
+                    }, (err, user) => {
+                        // If there are any errors, return the error
+                        if (err)
+                            RouterUtils.handleResponse(res, err, user);
+
+                        // If a user exists with either of those
+                        if (user) {
+                            RouterUtils.handleResponse(res, 'That student id/email is already taken.', user);
+                        } else {
+
+                            // Save the new user
+                            User.create(newUser, (err, createdUser: IMongooseUser) => {
+                                RouterUtils.handleResponse(res, err, createdUser);
+                            });
+                        };
+                    });
+                }
+            });
         });
     }
 
+    // Signing in the application
     public signIn(req: express.Request, res: express.Response, next: express.NextFunction) {
         if (req.body.studentId && req.body.password) {
             const studentId = req.body.studentId;
             const password = req.body.password;
 
-            // characters
+            //Find user
             User.findOne({
-                // Model.find `$or` Mongoose condition
                 $or: [
                     { 'studentId': studentId },
                 ]
             }, (err, user) => {
 
                 // If there are any errors, return the error before anything
-                // else
                 if (err) {
                     RouterUtils.handleResponse(res, err, user);
                 }
 
-                // If no user is found, return a message
-                if (!user || user.password != password) {
+                // If no user is found or password is incorrect, return a message
+                if (!user || !AuthUtils.validPassword(password, user.password)) {
                     RouterUtils.handleResponse(res, 'Login failed', user);
                 }
                 else {
-
+                    //Generate and set accesToken/Cookie
                     let accessToken = AuthUtils.generateAccessToken(user);
 
                     AuthUtils.setAccessCookie(res, accessToken);
