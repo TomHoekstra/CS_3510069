@@ -7,7 +7,7 @@ Install Node.js from https://nodejs.org/en/download/
 * Globally install Gulp: npm install -g gulp-cli
 
 Install MongoDB from https://www.mongodb.com/download-center?jmp=nav#community
-* Create a folder `d:\data\db`
+* Create a folder `c:\data\db`
 * Add a variabel to PATH with your installation path of MongoDB, for example `C:\Program Files\MongoDB\Server\3.4\bin`
 
 Recommended: 
@@ -19,11 +19,33 @@ Getting the repository ready:
 
 Starting the application: 
 * To start the webapplication use: npm start
-* To start the webserver use: gulp serve
+* To start the webserver use: gulp serve (Sometimes you need to run this command twice the first time)
 * To start the database use commandline: mongod
 
-Import the users in the database for a faster start:
-* mongoimport --db quizapp --collection users --file users.json
+## Steps to start production:
+
+Getting the server and application
+* npm run build
+
+Preparing the linux server:
+* sudo apt-get update
+* sudo apt-get install nodejs
+* sudo apt-get install nodejs-legacy (Only on older linux versions)
+* sudo apt-get install npm
+* sudo npm install pm2 -g
+* sudo apt-get install -y mongodb-org
+* sudo service mongodb start
+* sudo apt-get install nginx
+
+Starting the server
+* copy dist/server folder to the server: /var/quizapp/server
+* run npm install
+* NODE_ENV=PROD
+* PM2 start /var/quizapp/server/server.js
+
+Starting the application
+* copy dist/app folder to the server: /var/quizapp/app
+* replace the etc/nginx/nginx.conf with the nginx.conf in the solution
 
 ## Extra information: 
 Command to create a new application:

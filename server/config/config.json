@@ -1,4 +1,9 @@
 {
+    "ENV" : "LOCAL",
+    "LOG_PATH" : {
+        "LOCAL" : "C:/Log/",
+        "PRODUCTION" : "/var/quizapp/log/"
+    },
     "JWT_SECRET" : "SlNPTldFQlRPS0VOSEVFRlRPT0tFRU5TRUNSRVQ=",
     "COOKIE_SECRET" : "RElUSVNDT09LSUVTRUNSRVRWT09SQ0FQSVRBU0VMRUNUQQ==",
     "MONGODB_URI" : "mongodb://localhost:27017/quizapp"
