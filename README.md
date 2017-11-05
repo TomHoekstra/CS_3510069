@@ -46,7 +46,8 @@ Starting the server
 Starting the application
 * copy dist/app folder to the server: /var/quizapp/app
 * replace the etc/nginx/nginx.conf with the nginx.conf in the solution
+* sudo service nginx reload
 
 ## Extra information: 
-Command to create a new application:
-*ng new QuizApp --minimal --inline-template false --routing --style less
+Command to create a new angular application:
+* ng new QuizApp --minimal --inline-template false --routing --style less
