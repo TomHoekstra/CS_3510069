@@ -41,7 +41,7 @@ Starting the server
 * copy dist/server folder to the server: /var/quizapp/server
 * run npm install
 * NODE_ENV=PROD
-* PM2 start /var/quizapp/server/server.js
+* PM2 start /var/quizapp/server/server.js --watch
 
 Starting the application
 * copy dist/app folder to the server: /var/quizapp/app
