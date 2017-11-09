@@ -4,7 +4,7 @@ import StudentQuiz from './student-quiz.model';
 
 export class QuizResult {
     correctedAnswers: CorrectedAnswer[] = new Array();
-    percentage: number;
+    percentage: string;
 
     constructor(quiz: IQuiz, studentQuiz: StudentQuiz) {
         for (var i = 0; i < quiz.questions.length; i++) {
@@ -37,7 +37,7 @@ export class QuizResult {
                 correctAnswers++;
         });
 
-        this.percentage = correctAnswers / this.correctedAnswers.length * 100;
+        this.percentage = (correctAnswers / this.correctedAnswers.length * 100).toFixed(2);;
     }
 }
 

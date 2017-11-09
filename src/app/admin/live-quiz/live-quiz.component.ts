@@ -27,8 +27,8 @@ export class LiveQuizComponent {
 
   constructor(private messageService: MessageService, private quizService: QuizService, private liveAnswerService: LiveAnswerService) { }
 
-  // Count how many answers are given on an answer
-  getAnswerCount(index: number) {
+  // Count how many answers are given on an answer and calculate percentage on total
+  getAnswerPercentage(index: number) {
     if (this.results) {
       let count = 0;
       this.results.forEach(el => {
@@ -37,7 +37,9 @@ export class LiveQuizComponent {
         }
       });
 
-      return count;
+      let percentage =  count / this.results.length * 100;
+
+      return percentage.toFixed(2);
     }
   }
 

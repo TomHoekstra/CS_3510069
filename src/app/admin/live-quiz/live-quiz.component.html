@@ -7,19 +7,26 @@
 </div>
 <div *ngIf="quiz">
   <div class="row">
-    <div class="col-md-11">
+    <div class="col-md-12">
       <h1>{{quiz?.questions[selectedQuestion].question}}</h1>
     </div>
-    <div class="col-md-1">
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Total answers: {{results?.length}}</h2>
+    </div>
+    <div class="col-md-6">
       <button *ngIf="!showAnswers" class="btn btn-success right" (click)="showAnswerToggle()" type="button">Show answers</button>
       <button *ngIf="showAnswers" class="btn btn-primary right" (click)="showAnswerToggle()" type="button">Hide answers</button>
     </div>
   </div>
+
   <div class="row">
     <div class="btn-answer-container">
       <div class="col-md-6 answer-box" *ngFor="let answer of quiz?.questions[selectedQuestion].answers; let a = index">
         <div class="inner-answer-box" [style.backgroundColor]="bgcolor[a]">{{answer.answer}}
-          <br/> Answers: {{getAnswerCount(a)}}
+          <br/> Answers: {{getAnswerPercentage(a)}}%
           <br/>
           <i *ngIf="showAnswers && answer.correct" class="fa fa-check live-correct" aria-hidden="true"></i>
         </div>
